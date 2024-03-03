@@ -1,0 +1,165 @@
+.audioPlayerContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  background-color: #f3f4f5;
+  border-radius: 25px;
+}
+
+.audioPlayer {
+  display: flex;
+}
+
+.audioPlayer > * {
+  margin: 0 5px;
+}
+
+.time {
+  display: flex;
+  align-self: center;
+}
+
+.time > * {
+  margin: 2px;
+}
+
+.volumeContainer {
+  align-self: center;
+  cursor: pointer;
+  position: relative;
+  margin-top: 3px;
+  padding: 0 8px;
+  z-index: 2;
+}
+
+.volumeButton {
+  height: 26px;
+  display: flex;
+  align-items: center;
+}
+
+.volume {
+  transform: scale(0.7);
+  padding: 5px;
+}
+
+.volumeSliderContainer {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  border-radius: 25px;
+  z-index: -1;
+  width: 0;
+  height: 25px;
+  background: #e7e7e7;
+  transition: 0.5s ease-out;
+}
+
+.volumeContainer:hover .volumeSliderContainer {
+  width: 110px;
+  padding: 0 16px;
+}
+
+.volumeSlider {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 73%;
+  height: 100%;
+}
+
+.volumeSliderContainer input[type="range"] {
+  -webkit-appearance: none; /* For WebKit browsers */
+  appearance: none;
+  width: 100%;
+  background: #c2c2c2; /* This should match the timeline color */
+  height: 4px; /* Adjust the height as needed */
+  border-radius: 5px; /* Match the border-radius of your design */
+  cursor: pointer;
+}
+
+/* Default style for the thumb - make it transparent or very small */
+.volumeSliderContainer input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  visibility: hidden; /* Hide the thumb by default */
+  width: 0; /* Or a very small width */
+  height: 0; /* Or a very small height */
+  background: transparent;
+  position: relative; /* For precise placement */
+}
+
+/* Style the thumb on hover */
+.volumeSliderContainer input[type="range"]:hover::-webkit-slider-thumb {
+  visibility: visible; /* Show the thumb on hover */
+  width: 12px; /* The visible width of the thumb */
+  height: 12px; /* The visible height of the thumb */
+  background: #202429; /* The thumb color */
+  border-radius: 50%; /* If you want a circular thumb */
+  position: relative;
+}
+
+/* For Firefox */
+.volumeSliderContainer input[type="range"]::-moz-range-thumb {
+  visibility: hidden; /* Hide the thumb by default */
+  width: 16px;
+  height: 16px;
+  background: #202429;
+  border-radius: 50%;
+}
+
+.volumeSliderContainer input[type="range"]:hover::-moz-range-thumb {
+  visibility: visible; /* Show thumb on hover */
+}
+
+/*
+* timeline css
+*/
+
+.timeline {
+  display: flex;
+  position: relative;
+  align-self: center;
+  margin-top: 3px;
+  width: 180px;
+  height: 5px;
+}
+
+.progress {
+  background-color: #202429;
+  width: 10%;
+  height: 100%;
+  transition: 0.25s;
+}
+
+.timeline input[type="range"] {
+  -webkit-appearance: none; /* For WebKit browsers */
+  appearance: none;
+  width: 100%;
+  background: #c2c2c2; /* This should match the timeline color */
+  height: 4px; /* Adjust the height as needed */
+  border-radius: 5px; /* Match the border-radius of your design */
+  cursor: pointer;
+}
+
+/* Default style for the thumb - make it transparent or very small */
+.timeline input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  visibility: hidden; /* Hide the thumb by default */
+  width: 0; /* Or a very small width */
+  height: 0; /* Or a very small height */
+  background: transparent;
+  position: relative; /* For precise placement */
+}
+
+/* Style the thumb on hover */
+.timeline input[type="range"]:hover::-webkit-slider-thumb {
+  visibility: visible; /* Show the thumb on hover */
+  width: 12px; /* The visible width of the thumb */
+  height: 12px; /* The visible height of the thumb */
+  background: #202429; /* The thumb color */
+  border-radius: 50%; /* If you want a circular thumb */
+  position: relative;
+}

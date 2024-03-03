@@ -1,0 +1,13 @@
+.verticalSeparator {
+  height: auto;
+  width: 1px;
+  background-color: #000000;
+  align-self: center;
+}
+
+.horizontalSeparator {
+  height: 1px;
+  width: auto;
+  background-color: #000000;
+  align-self: center;
+}

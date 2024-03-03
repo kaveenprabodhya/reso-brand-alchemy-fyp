@@ -1,0 +1,8 @@
+.verticalSeparator {
+  height: auto;
+  width: 2px;
+  background-color: #ffffff;
+  margin-left: 6px;
+  margin-right: 6px;
+  align-self: center;
+}

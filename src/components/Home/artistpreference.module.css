@@ -1,0 +1,24 @@
+.area {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ffffff;
+  background: white;
+}
+
+#dropZone {
+  border: 2px dashed #bbb;
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  font: 14pt bold arial;
+  color: #bbb;
+}
+
+.horizontalSeparator {
+  height: 1px;
+  width: auto;
+  background-color: #ffffff;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  align-self: center;
+}
