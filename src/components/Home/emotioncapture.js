@@ -13,7 +13,9 @@ const EmotionCapture = ({ webcamRef }) => {
     <>
       <div className="container" style={{ height: "100%" }}>
         <div
-          className="d-flex align-items-center justify-content-center"
+          className={`${
+            !isStreaming ? "black-canvas" : ""
+          } d-flex align-items-center justify-content-center`}
           style={{ height: "100%" }}
         >
           <Webcamstreamcapture
@@ -22,9 +24,6 @@ const EmotionCapture = ({ webcamRef }) => {
             height="480"
             onStreamingStatusChange={handleStreamingStatusChange}
           />
-          {!isStreaming && (
-            <div className="black-canvas">Camera is not streaming</div>
-          )}
         </div>
       </div>
     </>

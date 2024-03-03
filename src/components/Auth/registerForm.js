@@ -7,77 +7,77 @@ const RegisterForm = ({ openLoginModal, closeRegisterModal }) => {
   return (
     <>
       <form>
-        <div class="row mb-3 g-3 align-items-center">
-          <div class="col-auto">
-            <label for="inputFirstName" class="col-form-label">
+        <div className="row mb-3 g-3 align-items-center">
+          <div className="col-auto">
+            <label for="inputFirstName" className="col-form-label">
               First Name
             </label>
           </div>
-          <div class="col-auto">
-            <input type="text" id="inputFirstName" class="form-control" />
+          <div className="col-auto">
+            <input type="text" id="inputFirstName" className="form-control" />
           </div>
-          {/* <div class="col-auto">
-            <span id="passwordHelpInline" class="form-text">
+          {/* <div className="col-auto">
+            <span id="passwordHelpInline" className="form-text">
               Must be 8-20 characters long.
             </span>
           </div> */}
         </div>
-        <div class="row mb-3 g-3 align-items-center">
-          <div class="col-auto">
-            <label for="inputLastName" class="col-form-label">
+        <div className="row mb-3 g-3 align-items-center">
+          <div className="col-auto">
+            <label for="inputLastName" className="col-form-label">
               Last Name
             </label>
           </div>
-          <div class="col-auto">
-            <input type="text" id="inputLastName" class="form-control" />
+          <div className="col-auto">
+            <input type="text" id="inputLastName" className="form-control" />
           </div>
-          {/* <div class="col-auto">
-            <span id="passwordHelpInline" class="form-text">
+          {/* <div className="col-auto">
+            <span id="passwordHelpInline" className="form-text">
               Must be 8-20 characters long.
             </span>
           </div> */}
         </div>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">
+        <div className="mb-3">
+          <label for="exampleInputEmail1" className="form-label">
             Email address
           </label>
           <input
             type="email"
-            class="form-control"
+            className="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
           />
-          <div id="emailHelp" class="form-text">
+          <div id="emailHelp" className="form-text">
             We'll never share your email with anyone else.
           </div>
         </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">
+        <div className="mb-3">
+          <label for="exampleInputPassword1" className="form-label">
             Password
           </label>
           <input
             type="password"
-            class="form-control"
+            className="form-control"
             id="exampleInputPassword1"
           />
         </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword2" class="form-label">
+        <div className="mb-3">
+          <label for="exampleInputPassword2" className="form-label">
             Confirm Password
           </label>
           <input
             type="password"
-            class="form-control"
+            className="form-control"
             id="exampleInputPassword2"
           />
         </div>
-        <div class="mb-3">
+        <div className="mb-3">
           Already haven an account?{" "}
           <button className="btn btn-outline-info" onClick={openModal}>
             Login here.
           </button>
         </div>
-        <button type="submit" class="btn btn-primary d-flex ms-auto">
+        <button type="submit" className="btn btn-primary d-flex ms-auto">
           Register
         </button>
       </form>

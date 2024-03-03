@@ -5,6 +5,9 @@
   width: 100%;
   height: 100%;
   background-color: black;
+  background-image: url("../../assets/logo512.png");
+  background-repeat: no-repeat;
+  background-position: center;
   color: white;
   display: flex;
   align-items: center;
