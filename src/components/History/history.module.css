@@ -1,19 +1,12 @@
-.circle {
-  width: 28px;
-  height: 28px;
-  background-color: black;
-  border-radius: 25px;
+.imageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.5;
+  width: 580px;
+  height: 540px;
 }
 
-.dot {
-  width: 4px;
-  height: 4px;
-  margin: 2px;
-  background-color: white;
-  border-radius: 30px;
-  z-index: 5px;
+.brandImage {
+  max-width: 570px;
+  max-height: 520px;
 }
