@@ -42,30 +42,35 @@ const ImageListItem = ({ imageData, handleLoadImage, isActive }) => {
     <>
       <div
         onClick={handleClosePopup}
-        className={`image-list-item-container rounded-3 mx-2 mt-2 d-flex align-items-center justify-content-between px-2 ${
+        className={`image-list-item-container rounded-3 mx-2 mt-2 d-flex align-items-center justify-content-between ${
           isActive ? "active" : "non-active"
         }`}
       >
-        <div className="w-100 me-2" style={{ position: "relative" }}>
+        <div className="w-100 h-100 d-flex align-items-center" style={{ position: "relative", cursor: "pointer" }}>
           <div
-            className="text-dark text-start fw-bold w-100"
+            className="text-dark text-start fw-bold w-100 ps-2"
             style={{ fontSize: "12px" }}
             onClick={handleLoadImage.bind(this, imageData)}
           >
             {imageData.imgName}
           </div>
         </div>
-        <div className={"circle"} onClick={togglePopup}>
+        <div className="circle" onClick={togglePopup}>
           <div>
-            <div className={"dot"}></div>
-            <div className={"dot"}></div>
-            <div className={"dot"}></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
           </div>
         </div>
         {isPopupOpen && isActive && (
           <div className="popup-menu">
-            <div className="popup-item" onClick={handleDelete}>
-              Delete
+            <div className="popup-item d-flex justify-content-between align-items-center">
+              <div className="d-flex w-100 ms-auto">Download</div>
+              <span className="fa fa-arrow-circle-down"></span>
+            </div>
+            <div className="popup-item d-flex justify-content-between align-items-center">
+              <div className="d-flex w-100 ms-auto text-danger" onClick={handleDelete}>Delete</div>
+              <span className="fa fa-trash text-danger"></span>
             </div>
           </div>
         )}

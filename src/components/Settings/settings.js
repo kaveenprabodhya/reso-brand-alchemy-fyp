@@ -1,5 +1,7 @@
 import { useState } from "react";
 import classes from "./settings.module.css";
+import GeneralTab from "./generalTab";
+import ControlsTab from "./controlsTab";
 
 const Settings = () => {
   const [isGeneralTabState, setGeneralTabState] = useState(true);
@@ -17,8 +19,7 @@ const Settings = () => {
 
   return (
     <>
-      <div className={classes.horizontalSeparator}></div>
-      <div className="d-flex" style={{ height: "400px" }}>
+      <div className="d-flex mb-3" style={{ height: "300px" }}>
         <div className="d-flex flex-column justify-content-between px-2">
           <div className="d-flex flex-column">
             <button
@@ -49,9 +50,9 @@ const Settings = () => {
           className={classes.verticalSeparator}
           style={{ height: "100%" }}
         ></div>
-        <div className="px-3 py-2">
-          {isGeneralTabState && <div>General Tab State</div>}
-          {isControlTabState && <div>Control Tab State</div>}
+        <div className="px-3 w-100">
+          {isGeneralTabState && <GeneralTab />}
+          {isControlTabState && <ControlsTab/>}
         </div>
       </div>
     </>

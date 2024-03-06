@@ -1,5 +1,5 @@
 import classes from "./modal.module.css";
-const Modal = ({ isOpen, title, children, onClose }) => {
+const Modal = ({ isOpen, title, children, onClose, padding = "10px 20px" }) => {
   if (!isOpen) return null;
 
   return (
@@ -11,13 +11,13 @@ const Modal = ({ isOpen, title, children, onClose }) => {
         left: "50%",
         transform: "translate(-50%, -50%)",
         backgroundColor: "white",
-        padding: "20px",
         maxWidth: "600px",
         width: "90%",
         zIndex: 1050,
+        borderRadius: "10px"
       }}
     >
-      <div className="d-flex" style={{ marginBottom: "15px" }}>
+      <div className="d-flex" style={{ padding: "10px 20px" }}>
         <h2>{title}</h2>
         <button
           className="ms-auto btn btn-sm btn-danger h-25 align-self-center"
@@ -26,7 +26,8 @@ const Modal = ({ isOpen, title, children, onClose }) => {
           X
         </button>
       </div>
-      {children}
+      <div className={classes.horizontalSeparator}></div>
+      <div style={{padding: padding}}>{children}</div>
     </div>
   );
 };

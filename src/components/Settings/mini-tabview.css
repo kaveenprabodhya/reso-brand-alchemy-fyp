@@ -1,0 +1,8 @@
+.horizontal-separator {
+  height: 1px;
+  width: auto;
+  background-color: #000000;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  align-self: center;
+}

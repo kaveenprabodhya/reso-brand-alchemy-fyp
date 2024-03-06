@@ -13,3 +13,10 @@
 .modalDialog {
   animation: modalFadeIn 0.3s ease-out forwards;
 }
+
+.horizontalSeparator {
+  height: 1px;
+  width: auto;
+  background-color: #b9b9b9;
+  align-self: center;
+}

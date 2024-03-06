@@ -53,6 +53,7 @@ function App() {
           isOpen={visibleSettingsModal}
           title="Settings"
           onClose={closeSettingsModal}
+          padding="0"
         >
           <Settings />
         </Modal>
