@@ -22,3 +22,8 @@
   margin-bottom: 6px;
   align-self: center;
 }
+
+.scrollableList {
+  overflow-y: auto;
+  max-height: 160px;
+}
