@@ -20,8 +20,7 @@
 }
 
 .active {
-  background-color: #d2b4de;
-  border: 3px solid #d2b4de;
+  background-color: #9bace4;
 }
 
 .non-active {
@@ -31,9 +30,9 @@
 .popup-menu {
   position: absolute;
   right: 0;
-  top: 38px; /* adjust as needed */
+  top: 30px; /* adjust as needed */
   background-color: #fff;
-  padding: 5px 8px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
   z-index: 100;
@@ -41,13 +40,14 @@
 
 .popup-item {
   width: 150px;
-  padding: 8px 12px;
+  padding: 8px 4px;
   cursor: pointer;
   border-radius: 4px;
 }
 
 .popup-item:hover {
   background-color: #f2f2f2;
+  border: 1px solid;
 }
 
 .image-list-item-container {

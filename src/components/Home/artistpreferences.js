@@ -1,4 +1,6 @@
+import { useState } from "react";
 import classes from "./artistpreference.module.css";
+import PickColor from "./colorpicker";
 import Mp3Uploader from "./mp3uploader";
 
 const ArtistPreferences = ({
@@ -16,9 +18,12 @@ const ArtistPreferences = ({
   fileInputRef,
   deleted,
 }) => {
+  const [color, setColor] = useState("#fff");
   const emotions = ["Sad", "Sorrow", "Distress"];
 
-  const colors = ["red", "green", "blue"];
+  const colors = ["red", "green", "blue", "orange", "yellow", "purple"];
+
+  const handleSetColor = (color) => setColor(color.hex);
 
   return (
     <>
@@ -83,7 +88,7 @@ const ArtistPreferences = ({
           <h6 className="me-auto mt-3 mb-3 text-white">Your prefernces</h6>
           <div
             className="bg-white mt-2"
-            style={{ width: "100%", height: "40%", overflowY: "auto" }}
+            style={{ width: "100%", height: "50%", overflowY: "auto" }}
           >
             <div className="bg-secondary w-100 my-2 py-1 opacity-50 text-white">
               <div className="ps-2 pt-2">Emotions Captured</div>
@@ -123,31 +128,37 @@ const ArtistPreferences = ({
                   height: "100%",
                 }}
               >
-                {colors.length <= 0 && (
-                  <div className="d-flex border justify-content-center align-items-center">
+                {colors.length <= 0 ? (
+                  <div className="d-flex justify-content-center align-items-center">
                     No color suggestions.
                   </div>
-                )}
-                {colors.map((color, index) => (
-                  <div
-                    className="bg-white d-flex align-items-center justify-content-center"
-                    style={{ height: "75px", width: "75px" }}
-                    key={index}
-                  >
-                    <div
-                      style={{
-                        backgroundColor: color,
-                        width: "60px",
-                        height: "60px",
-                      }}
-                    ></div>
+                ) : (
+                  <div className="d-flex flex-wrap">
+                    {colors.map((color, index) => (
+                      <div
+                        className="bg-white d-flex align-items-center justify-content-center"
+                        style={{ height: "75px", width: "75px", margin: "2px" }}
+                        key={index}
+                      >
+                        <div
+                          style={{
+                            backgroundColor: color,
+                            width: "68px",
+                            height: "68px",
+                          }}
+                        ></div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
             </div>
             <div className={`bg-secondary w-100 my-2 opacity-50 text-white`}>
               <div className="ps-2 pt-2">Additional Colors</div>
               <div className={classes.horizontalSeparator}></div>
+              <div className="py-2 ps-2">
+                <PickColor color={color} handleSetColor={handleSetColor} />
+              </div>
             </div>
           </div>
           <div className="ms-auto">

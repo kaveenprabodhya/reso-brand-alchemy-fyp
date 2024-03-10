@@ -51,6 +51,10 @@ const Home = () => {
       fileInputRef.current.value = "";
       setDeleted(true);
     }
+    if (webcamRef.current) {
+      webcamRef.current.stopStream();
+      setShowStartButton(true);
+    }
   };
 
   const handleChange = (e) => {

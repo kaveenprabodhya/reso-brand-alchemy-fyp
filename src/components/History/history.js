@@ -43,21 +43,23 @@ const HistoryTab = () => {
         activeImage={activeImage}
       />
       <div className="col d-flex flex-column justify-content-center align-items-center">
-        <div className={`${classes.imageContainer} flex-column border border-3`}>
+        <div
+          className={`${classes.imageContainer} flex-column border border-3`}
+        >
           {loadedImageData && (
             <div className="d-flex justify-content-center align-items-center w-100 h-100">
               <img
-              className={classes.brandImage}
-              src={loadedImageData.imgSrc}
-              alt="img-preview"
-              width="300px"
-              height="300px"
-            />
+                className={classes.brandImage}
+                src={loadedImageData.imgSrc}
+                alt="img-preview"
+                width="300px"
+                height="300px"
+              />
             </div>
           )}
           <div className="w-100 text-white fw-bolder d-flex justify-content-end align-items-end pe-2 pb-1">
-          {loadedImageData.created}
-        </div>
+            {loadedImageData.created}
+          </div>
         </div>
       </div>
     </>

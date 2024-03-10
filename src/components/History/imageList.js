@@ -4,9 +4,10 @@ const ImageList = ({ imageList, handleLoadImage, activeImage }) => {
   return (
     <>
       <div
+        className="px-2"
         style={{
           backgroundColor: "#F2F4F4",
-          width: "220px",
+          width: "250px",
           overflowY: "scroll",
         }}
       >
