@@ -17,11 +17,9 @@ const ArtistPreferences = ({
   handleDelete,
   fileInputRef,
   deleted,
+  emotions,
 }) => {
   const [color, setColor] = useState("#fff");
-  const emotions = ["Sad", "Sorrow", "Distress"];
-
-  const colors = ["red", "green", "blue", "orange", "yellow", "purple"];
 
   const handleSetColor = (color) => setColor(color.hex);
 
@@ -94,20 +92,20 @@ const ArtistPreferences = ({
               <div className="ps-2 pt-2">Emotions Captured</div>
               <div className={classes.horizontalSeparator}></div>
               <div
-                className="my-2 mx-3"
+                className="my-2 mx-2"
                 style={{
                   display: "grid",
                   gridTemplateRows: "1fr",
                   height: "100%",
                 }}
               >
-                {emotions.length <= 0 && (
+                {Object.keys(emotions).length <= 0 && (
                   <div className="d-flex border justify-content-center align-items-center">
                     No emotions captured.
                   </div>
                 )}
                 <ul className="list-group list-group-flush rounded">
-                  {emotions.map((emotion, index) => (
+                  {Object.entries(emotions).map(([emotion, color], index) => (
                     <li className="list-group-item" key={index}>
                       {emotion}
                     </li>
@@ -128,13 +126,13 @@ const ArtistPreferences = ({
                   height: "100%",
                 }}
               >
-                {colors.length <= 0 ? (
-                  <div className="d-flex justify-content-center align-items-center">
+                {Object.keys(emotions).length <= 0 ? (
+                  <div className="d-flex border justify-content-center align-items-center">
                     No color suggestions.
                   </div>
                 ) : (
                   <div className="d-flex flex-wrap">
-                    {colors.map((color, index) => (
+                    {Object.entries(emotions).map(([emotion, color], index) => (
                       <div
                         className="bg-white d-flex align-items-center justify-content-center"
                         style={{ height: "75px", width: "75px", margin: "2px" }}

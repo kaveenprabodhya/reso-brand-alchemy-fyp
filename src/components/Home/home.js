@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ArtistPreferences from "./artistpreferences";
 import EmotionCapture from "./emotioncapture";
 import classes from "./home.module.css";
+import io from "socket.io-client";
 
 const Home = () => {
   const webcamRef = useRef(null);
@@ -10,6 +11,37 @@ const Home = () => {
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
   const [deleted, setDeleted] = useState(false);
+  const [emotionList, setEmotionList] = useState({});
+  const socket = io("http://localhost:5000");
+
+  useEffect(() => {
+    const handleServerConnectStatus = (data) => {
+      console.log("Feedback from server:", data.status);
+    };
+
+    // Function to process the emotion analysis results
+    const handleEmotionAnalysisResults = (data) => {
+      console.log("Emotion Analysis Results:", data.results);
+      // Process or display the results as needed
+      setEmotionList(data.results);
+    };
+
+    const handleFrameStatus = (data) => {
+      console.log(data.status);
+    };
+
+    // Add event listener for 'emotion_analysis_results'
+    socket.on("server_connect_response", handleServerConnectStatus);
+    socket.on("emotion_analysis_results", handleEmotionAnalysisResults);
+    socket.on("frame_status", handleFrameStatus);
+
+    // Cleanup function to remove the event listener when the component unmounts or re-renders
+    return () => {
+      socket.off("server_connect_response", handleServerConnectStatus);
+      socket.off("emotion_analysis_results", handleEmotionAnalysisResults);
+      socket.off("frame_status", handleFrameStatus);
+    };
+  }, [socket]);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -126,6 +158,7 @@ const Home = () => {
           handleDragOver={handleDragOver}
           handleDrop={handleDrop}
           deleted={deleted}
+          emotions={emotionList}
         />
       </div>
     </>
