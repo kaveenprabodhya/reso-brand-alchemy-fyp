@@ -80,7 +80,7 @@ const WebcamStreamCapture = (
       videoRef.current.srcObject = null;
       notifyStreamingStatus(false);
     }
-    socket.emit("stop_stream");
+    socket.current.emit("stop_stream");
   }, [notifyStreamingStatus]);
 
   // Expose startStream and stopStream methods to parent through ref
