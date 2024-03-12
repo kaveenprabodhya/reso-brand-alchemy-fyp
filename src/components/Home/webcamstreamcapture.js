@@ -3,13 +3,30 @@ import React, {
   useImperativeHandle,
   forwardRef,
   useCallback,
+  useEffect,
 } from "react";
+import io from "socket.io-client";
 
 const WebcamStreamCapture = (
-  { width, height, onStreamingStatusChange },
+  { width, height, onStreamingStatusChange, frameRate = 10 },
   ref
 ) => {
   const videoRef = useRef(null);
+  const socket = useRef(null);
+  const canvasRef = useRef(document.createElement("canvas"));
+  const streamingIntervalRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize Socket.IO connection
+    socket.current = io("http://localhost:5000");
+
+    return () => {
+      if (streamingIntervalRef.current) {
+        clearInterval(streamingIntervalRef.current);
+      }
+      socket.current.disconnect();
+    };
+  }, []);
 
   const notifyStreamingStatus = useCallback(
     (isStreaming) => {
@@ -30,16 +47,34 @@ const WebcamStreamCapture = (
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           notifyStreamingStatus(true);
+
+          // Prepare canvas for capturing and sending frames
+          const canvas = canvasRef.current;
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+
+          // Capture and send frames at specified frame rate
+          streamingIntervalRef.current = setInterval(() => {
+            ctx.drawImage(videoRef.current, 0, 0, width, height);
+            canvas.toBlob((blob) => {
+              socket.current.emit("stream_frame", blob);
+            }, "image/jpeg");
+          }, 1000 / frameRate);
         }
       } catch (error) {
         console.error(error);
         notifyStreamingStatus(false);
       }
     }
-  }, [width, height, notifyStreamingStatus]);
+  }, [width, height, notifyStreamingStatus, frameRate]);
 
   // Function to stop streaming
   const stopStream = useCallback(() => {
+    if (streamingIntervalRef.current) {
+      clearInterval(streamingIntervalRef.current);
+      streamingIntervalRef.current = null;
+    }
     if (videoRef.current && videoRef.current.srcObject) {
       videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
       videoRef.current.srcObject = null;
@@ -60,6 +95,7 @@ const WebcamStreamCapture = (
       height={height}
       autoPlay
       playsInline
+      muted
     ></video>
   );
 };
