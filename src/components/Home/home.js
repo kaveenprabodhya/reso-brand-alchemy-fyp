@@ -12,7 +12,9 @@ const Home = () => {
   const fileInputRef = useRef(null);
   const [deleted, setDeleted] = useState(false);
   const [emotionList, setEmotionList] = useState({});
-  const socket = io("http://localhost:5000");
+  const socket = io("http://localhost:5000", {
+    withCredentials: true,
+  });
 
   useEffect(() => {
     const handleServerConnectStatus = (data) => {
@@ -30,16 +32,22 @@ const Home = () => {
       console.log(data.status);
     };
 
+    const handleError = (data) => {
+      console.log(data);
+    };
+
     // Add event listener for 'emotion_analysis_results'
     socket.on("server_connect_response", handleServerConnectStatus);
     socket.on("emotion_analysis_results", handleEmotionAnalysisResults);
     socket.on("frame_status", handleFrameStatus);
+    socket.on("error", handleError);
 
     // Cleanup function to remove the event listener when the component unmounts or re-renders
     return () => {
       socket.off("server_connect_response", handleServerConnectStatus);
       socket.off("emotion_analysis_results", handleEmotionAnalysisResults);
       socket.off("frame_status", handleFrameStatus);
+      socket.off("error", handleError);
     };
   }, [socket]);
 

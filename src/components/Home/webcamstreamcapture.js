@@ -18,7 +18,9 @@ const WebcamStreamCapture = (
 
   useEffect(() => {
     // Initialize Socket.IO connection
-    socket.current = io("http://localhost:5000");
+    socket.current = io("http://localhost:5000", {
+      withCredentials: true,
+    });
 
     return () => {
       if (streamingIntervalRef.current) {
@@ -60,7 +62,7 @@ const WebcamStreamCapture = (
             canvas.toBlob((blob) => {
               socket.current.emit("stream_frame", blob);
             }, "image/jpeg");
-          }, 1000 / frameRate);
+          }, 1000);
         }
       } catch (error) {
         console.error(error);

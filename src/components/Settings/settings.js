@@ -17,6 +17,16 @@ const Settings = () => {
     setGeneralTabState(false);
   };
 
+  const logout = () => {
+    // Remove the stored token
+    localStorage.removeItem("userToken");
+
+    // Optionally, remove other stored session info
+    // localStorage.removeItem("userInfo");
+
+    // Update state or redirect to login page
+  };
+
   return (
     <>
       <div className="d-flex mb-3" style={{ height: "300px" }}>
@@ -41,6 +51,7 @@ const Settings = () => {
             <button
               className="btn text-white w-100"
               style={{ backgroundColor: "#6423CB", width: "130px" }}
+              onClick={logout}
             >
               Logout
             </button>
@@ -52,7 +63,7 @@ const Settings = () => {
         ></div>
         <div className="px-3 w-100">
           {isGeneralTabState && <GeneralTab />}
-          {isControlTabState && <ControlsTab/>}
+          {isControlTabState && <ControlsTab />}
         </div>
       </div>
     </>
