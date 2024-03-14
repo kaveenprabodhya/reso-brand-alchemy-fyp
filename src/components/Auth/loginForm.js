@@ -31,7 +31,7 @@ const LoginForm = ({ openRegisterModal, closeLoginModal }) => {
         // Handle successful login here
         const data = await response.json();
         console.log("Login successful:", data);
-        localStorage.setItem("userId", data.user_id);
+        // localStorage.setItem("access_token", data.access_token);
         // Optionally, you could close the login modal and redirect the user
         closeLoginModal();
         // Redirect user or update UI accordingly
@@ -48,7 +48,7 @@ const LoginForm = ({ openRegisterModal, closeLoginModal }) => {
     <>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label for="exampleInputEmail1" className="form-label">
+          <label htmlFor="exampleInputEmail1" className="form-label">
             Email address
           </label>
           <input
@@ -64,7 +64,7 @@ const LoginForm = ({ openRegisterModal, closeLoginModal }) => {
           </div>
         </div>
         <div className="mb-3">
-          <label for="exampleInputPassword1" className="form-label">
+          <label htmlFor="exampleInputPassword1" className="form-label">
             Password
           </label>
           <input

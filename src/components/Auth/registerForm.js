@@ -9,7 +9,7 @@ const RegisterForm = ({ openLoginModal, closeRegisterModal }) => {
       <form>
         <div className="row mb-3 g-3 align-items-center">
           <div className="col-auto">
-            <label for="inputFirstName" className="col-form-label">
+            <label htmlFor="inputFirstName" className="col-form-label">
               First Name
             </label>
           </div>
@@ -24,7 +24,7 @@ const RegisterForm = ({ openLoginModal, closeRegisterModal }) => {
         </div>
         <div className="row mb-3 g-3 align-items-center">
           <div className="col-auto">
-            <label for="inputLastName" className="col-form-label">
+            <label htmlFor="inputLastName" className="col-form-label">
               Last Name
             </label>
           </div>
@@ -38,7 +38,7 @@ const RegisterForm = ({ openLoginModal, closeRegisterModal }) => {
           </div> */}
         </div>
         <div className="mb-3">
-          <label for="exampleInputEmail1" className="form-label">
+          <label htmlFor="exampleInputEmail1" className="form-label">
             Email address
           </label>
           <input
@@ -52,7 +52,7 @@ const RegisterForm = ({ openLoginModal, closeRegisterModal }) => {
           </div>
         </div>
         <div className="mb-3">
-          <label for="exampleInputPassword1" className="form-label">
+          <label htmlFor="exampleInputPassword1" className="form-label">
             Password
           </label>
           <input
@@ -62,7 +62,7 @@ const RegisterForm = ({ openLoginModal, closeRegisterModal }) => {
           />
         </div>
         <div className="mb-3">
-          <label for="exampleInputPassword2" className="form-label">
+          <label htmlFor="exampleInputPassword2" className="form-label">
             Confirm Password
           </label>
           <input

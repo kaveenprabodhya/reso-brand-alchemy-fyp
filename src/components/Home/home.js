@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ArtistPreferences from "./artistpreferences";
 import EmotionCapture from "./emotioncapture";
 import classes from "./home.module.css";
-import io from "socket.io-client";
 
 const Home = () => {
   const webcamRef = useRef(null);
@@ -12,44 +11,48 @@ const Home = () => {
   const fileInputRef = useRef(null);
   const [deleted, setDeleted] = useState(false);
   const [emotionList, setEmotionList] = useState({});
-  const socket = io("http://localhost:5000", {
-    withCredentials: true,
-  });
 
-  useEffect(() => {
-    const handleServerConnectStatus = (data) => {
-      console.log("Feedback from server:", data.status);
-    };
+  // const socket = io("http://localhost:5000", {
+  //   withCredentials: true,
+  //   query: {
+  //     token: `Bearer ${localStorage.getItem("access_token")}`,
+  //   },
+  // });
 
-    // Function to process the emotion analysis results
-    const handleEmotionAnalysisResults = (data) => {
-      console.log("Emotion Analysis Results:", data.results);
-      // Process or display the results as needed
-      setEmotionList(data.results);
-    };
+  // useEffect(() => {
+  //   const handleServerConnectStatus = (data) => {
+  //     console.log("Feedback from server:", data.status);
+  //   };
 
-    const handleFrameStatus = (data) => {
-      console.log(data.status);
-    };
+  //   // Function to process the emotion analysis results
+  //   const handleEmotionAnalysisResults = (data) => {
+  //     console.log("Emotion Analysis Results:", data.results);
+  //     // Process or display the results as needed
+  //     setEmotionList(data.results);
+  //   };
 
-    const handleError = (data) => {
-      console.log(data);
-    };
+  //   const handleFrameStatus = (data) => {
+  //     console.log(data.status);
+  //   };
 
-    // Add event listener for 'emotion_analysis_results'
-    socket.on("server_connect_response", handleServerConnectStatus);
-    socket.on("emotion_analysis_results", handleEmotionAnalysisResults);
-    socket.on("frame_status", handleFrameStatus);
-    socket.on("error", handleError);
+  //   const handleError = (data) => {
+  //     console.log(data);
+  //   };
 
-    // Cleanup function to remove the event listener when the component unmounts or re-renders
-    return () => {
-      socket.off("server_connect_response", handleServerConnectStatus);
-      socket.off("emotion_analysis_results", handleEmotionAnalysisResults);
-      socket.off("frame_status", handleFrameStatus);
-      socket.off("error", handleError);
-    };
-  }, [socket]);
+  //   // Add event listener for 'emotion_analysis_results'
+  //   socket.on("server_connect_response", handleServerConnectStatus);
+  //   // socket.on("emotion_analysis_results", handleEmotionAnalysisResults);
+  //   socket.on("frame_status", handleFrameStatus);
+  //   socket.on("error", handleError);
+
+  //   // Cleanup function to remove the event listener when the component unmounts or re-renders
+  //   return () => {
+  //     socket.off("server_connect_response", handleServerConnectStatus);
+  //     socket.off("emotion_analysis_results", handleEmotionAnalysisResults);
+  //     socket.off("frame_status", handleFrameStatus);
+  //     socket.off("error", handleError);
+  //   };
+  // }, [socket]);
 
   const handleDragOver = (e) => {
     e.preventDefault();

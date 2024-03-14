@@ -3,7 +3,7 @@ import classes from "./settings.module.css";
 import GeneralTab from "./generalTab";
 import ControlsTab from "./controlsTab";
 
-const Settings = () => {
+const Settings = ({ closeSettingsModal }) => {
   const [isGeneralTabState, setGeneralTabState] = useState(true);
   const [isControlTabState, setControlTabState] = useState(false);
 
@@ -17,12 +17,28 @@ const Settings = () => {
     setGeneralTabState(false);
   };
 
-  const logout = () => {
-    // Remove the stored token
-    localStorage.removeItem("userToken");
+  const logout = async () => {
+    try {
+      // Making the API request to the login endpoint
+      const response = await fetch("http://localhost:5000/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    // Optionally, remove other stored session info
-    // localStorage.removeItem("userInfo");
+      if (response.ok) {
+        // Optionally, you could close the login modal and redirect the user
+        closeSettingsModal();
+        // Redirect user or update UI accordingly
+      } else {
+        // Handle errors or unsuccessful login attempts
+        console.error("Logout failed:", await response.text());
+      }
+    } catch (error) {
+      console.error("Error during the logout process:", error);
+    }
 
     // Update state or redirect to login page
   };

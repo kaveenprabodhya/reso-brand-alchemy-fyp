@@ -61,6 +61,7 @@ function App() {
       <Main
         openLoginModal={openLoginModal}
         handleSettingsModal={openSettingsModal}
+        closeSettingsnModal={closeSettingsModal}
       />
     </>
   );

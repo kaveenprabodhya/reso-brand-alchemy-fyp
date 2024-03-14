@@ -8,7 +8,7 @@ import React, {
 import io from "socket.io-client";
 
 const WebcamStreamCapture = (
-  { width, height, onStreamingStatusChange, frameRate = 10 },
+  { width, height, onStreamingStatusChange, frameRate = 1000 },
   ref
 ) => {
   const videoRef = useRef(null);
@@ -17,16 +17,36 @@ const WebcamStreamCapture = (
   const streamingIntervalRef = useRef(null);
 
   useEffect(() => {
-    // Initialize Socket.IO connection
     socket.current = io("http://localhost:5000", {
       withCredentials: true,
+      // query: {
+      //   token: `Bearer ${localStorage.getItem("access_token")}`,
+      // },
+    });
+
+    socket.current.on("server_connect_response", (data) => {
+      console.log("Feedback from server:", data.status);
+    });
+
+    socket.current.on("emotion_analysis_results", (data) => {
+      console.log(data);
+    });
+
+    socket.current.on("frame_status", (data) => {
+      console.log(data.status);
+    });
+
+    socket.current.on("error", (data) => {
+      console.log(data);
     });
 
     return () => {
       if (streamingIntervalRef.current) {
         clearInterval(streamingIntervalRef.current);
       }
-      socket.current.disconnect();
+      if (socket.current) {
+        socket.current.disconnect();
+      }
     };
   }, []);
 
@@ -38,6 +58,8 @@ const WebcamStreamCapture = (
     },
     [onStreamingStatusChange]
   );
+
+  const frameInterval = 2000;
 
   // Function to start streaming
   const startStream = useCallback(async () => {
@@ -61,15 +83,16 @@ const WebcamStreamCapture = (
             ctx.drawImage(videoRef.current, 0, 0, width, height);
             canvas.toBlob((blob) => {
               socket.current.emit("stream_frame", blob);
+              console.log("sent");
             }, "image/jpeg");
-          }, 1000);
+          }, frameInterval);
         }
       } catch (error) {
         console.error(error);
         notifyStreamingStatus(false);
       }
     }
-  }, [width, height, notifyStreamingStatus, frameRate]);
+  }, [width, height, notifyStreamingStatus, frameInterval]);
 
   // Function to stop streaming
   const stopStream = useCallback(() => {
@@ -82,7 +105,9 @@ const WebcamStreamCapture = (
       videoRef.current.srcObject = null;
       notifyStreamingStatus(false);
     }
-    socket.current.emit("stop_stream");
+    if (socket.current) {
+      socket.current.emit("stop_stream");
+    }
   }, [notifyStreamingStatus]);
 
   // Expose startStream and stopStream methods to parent through ref
