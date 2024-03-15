@@ -1,58 +1,52 @@
-import { useRef, useState } from "react";
-import ArtistPreferences from "./artistpreferences";
+import { useEffect, useRef, useState } from "react";
 import EmotionCapture from "./emotioncapture";
 import classes from "./home.module.css";
+import ArtistPreferences from "./Artist Preferences/artistpreferences";
+import io from "socket.io-client";
 
-const Home = () => {
+const Home = ({ isLoggedIn }) => {
   const webcamRef = useRef(null);
   const [showStartButton, setShowStartButton] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
   const [deleted, setDeleted] = useState(false);
-  const [emotionList, setEmotionList] = useState({});
+  const socket = useRef(null);
+  const streamingIntervalRef = useRef(null);
+  const [emotionColor, setEmotionColor] = useState({});
 
-  // const socket = io("http://localhost:5000", {
-  //   withCredentials: true,
-  //   query: {
-  //     token: `Bearer ${localStorage.getItem("access_token")}`,
-  //   },
-  // });
+  useEffect(() => {
+    socket.current = io("http://localhost:5000");
 
-  // useEffect(() => {
-  //   const handleServerConnectStatus = (data) => {
-  //     console.log("Feedback from server:", data.status);
-  //   };
+    socket.current.on("server_connect_response", (data) => {
+      console.log("Feedback from server:", data.status);
+    });
 
-  //   // Function to process the emotion analysis results
-  //   const handleEmotionAnalysisResults = (data) => {
-  //     console.log("Emotion Analysis Results:", data.results);
-  //     // Process or display the results as needed
-  //     setEmotionList(data.results);
-  //   };
+    socket.current.on("emotion_analysis_results", (data) => {
+      setEmotionColor((prev) => ({ ...prev, ...data.results }));
+    });
 
-  //   const handleFrameStatus = (data) => {
-  //     console.log(data.status);
-  //   };
+    socket.current.on("frame_status", (data) => {
+      console.log(data.status);
+    });
 
-  //   const handleError = (data) => {
-  //     console.log(data);
-  //   };
+    socket.current.on("error", (data) => {
+      console.log(data);
+    });
 
-  //   // Add event listener for 'emotion_analysis_results'
-  //   socket.on("server_connect_response", handleServerConnectStatus);
-  //   // socket.on("emotion_analysis_results", handleEmotionAnalysisResults);
-  //   socket.on("frame_status", handleFrameStatus);
-  //   socket.on("error", handleError);
-
-  //   // Cleanup function to remove the event listener when the component unmounts or re-renders
-  //   return () => {
-  //     socket.off("server_connect_response", handleServerConnectStatus);
-  //     socket.off("emotion_analysis_results", handleEmotionAnalysisResults);
-  //     socket.off("frame_status", handleFrameStatus);
-  //     socket.off("error", handleError);
-  //   };
-  // }, [socket]);
+    return () => {
+      if (streamingIntervalRef.current) {
+        clearInterval(streamingIntervalRef.current);
+      }
+      socket.current.off("emotion_analysis_results");
+      socket.current.off("server_connect_response");
+      socket.current.off("frame_status");
+      socket.current.off("error");
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
+  }, []);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -123,6 +117,9 @@ const Home = () => {
 
   const handleAudioEnd = () => {
     setIsPlaying(false);
+    // const audioPlayer = document.getElementById("audioPlayer");
+    // audioPlayer.currentTime = 0;
+    handleDelete();
   };
 
   const handleStartCapture = () => {
@@ -143,12 +140,20 @@ const Home = () => {
       setShowStartButton(true);
       togglePlayPause();
       handleDelete();
+      if (socket.current) {
+        socket.current.disconnect();
+      }
     }
   };
+
   return (
     <>
       <div className="col-7">
-        <EmotionCapture webcamRef={webcamRef} />
+        <EmotionCapture
+          webcamRef={webcamRef}
+          socket={socket}
+          streamingIntervalRef={streamingIntervalRef}
+        />
       </div>
       <div
         className={classes.verticalSeparator}
@@ -169,7 +174,8 @@ const Home = () => {
           handleDragOver={handleDragOver}
           handleDrop={handleDrop}
           deleted={deleted}
-          emotions={emotionList}
+          emotions={emotionColor}
+          isLoggedIn={isLoggedIn}
         />
       </div>
     </>

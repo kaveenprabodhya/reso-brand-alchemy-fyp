@@ -1,6 +1,6 @@
 import "./mini-tabview.css";
 
-const GeneralTab = () => {
+const GeneralTab = ({ isLoggedIn }) => {
   return (
     <>
       <div className="d-flex justify-content-between my-3 align-items-center">
@@ -9,8 +9,14 @@ const GeneralTab = () => {
       </div>
       <div className="horizontal-separator"></div>
       <div className="d-flex justify-content-between my-3 align-items-center">
-        <div>Delete all images</div>
-        <button className="btn btn-danger">Delete All</button>
+        {isLoggedIn ? (
+          <>
+            <div>Delete all images</div>
+            <button className="btn btn-danger">Delete All</button>
+          </>
+        ) : (
+          <div></div>
+        )}
       </div>
     </>
   );

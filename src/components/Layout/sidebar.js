@@ -3,8 +3,11 @@ import classes from "./sidebar.module.css";
 const SideBar = ({
   handleAuthModal,
   handleSettingsModal,
+  handleProfileModal,
   onHomeClick,
   onHistoryClick,
+  isLoggedIn,
+  user,
 }) => {
   return (
     <>
@@ -17,14 +20,32 @@ const SideBar = ({
           }}
         >
           <div className="d-flex align-items-center justify-content-center">
-            <button
-              className="btn text-white w-100"
-              style={{ backgroundColor: "#6423CB" }}
-              onClick={handleAuthModal}
-            >
-              <i className="fa fa-user pe-2 text-white"></i>
-              Login
-            </button>
+            {!isLoggedIn ? (
+              <button
+                className="btn text-white w-100"
+                style={{ backgroundColor: "#6423CB" }}
+                onClick={handleAuthModal}
+              >
+                <i className="fa fa-user pe-2 text-white"></i>
+                Login
+              </button>
+            ) : (
+              <button
+                className="btn text-white w-100"
+                style={{ backgroundColor: "#6423CB" }}
+                onClick={handleProfileModal}
+              >
+                <span className="d-flex align-items-center justify-content-between">
+                  <i className="fa fa-user-circle pe-2 text-white fs-4"></i>
+                  <div
+                    className="w-100 d-flex justify-content-end"
+                    style={{ fontSize: "14px", fontWeight: "bold" }}
+                  >
+                    {user?.firstName + " " + user?.lastName}
+                  </div>
+                </span>
+              </button>
+            )}
           </div>
           <div>
             <div className="d-flex mt-3 align-items-center justify-content-center">

@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-const LoginForm = ({ openRegisterModal, closeLoginModal }) => {
+const LoginForm = ({
+  openRegisterModal,
+  closeLoginModal,
+  handleSetIsLogin,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -31,7 +35,8 @@ const LoginForm = ({ openRegisterModal, closeLoginModal }) => {
         // Handle successful login here
         const data = await response.json();
         console.log("Login successful:", data);
-        // localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("access_token", data.access_token);
+        handleSetIsLogin();
         // Optionally, you could close the login modal and redirect the user
         closeLoginModal();
         // Redirect user or update UI accordingly

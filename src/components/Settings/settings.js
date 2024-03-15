@@ -3,7 +3,7 @@ import classes from "./settings.module.css";
 import GeneralTab from "./generalTab";
 import ControlsTab from "./controlsTab";
 
-const Settings = ({ closeSettingsModal }) => {
+const Settings = ({ closeSettingsModal, handleLogout, isLoggedIn }) => {
   const [isGeneralTabState, setGeneralTabState] = useState(true);
   const [isControlTabState, setControlTabState] = useState(false);
 
@@ -25,11 +25,14 @@ const Settings = ({ closeSettingsModal }) => {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
 
       if (response.ok) {
         // Optionally, you could close the login modal and redirect the user
+        localStorage.removeItem("access_token");
+        handleLogout();
         closeSettingsModal();
         // Redirect user or update UI accordingly
       } else {
@@ -64,13 +67,17 @@ const Settings = ({ closeSettingsModal }) => {
             </button>
           </div>
           <div className="w-100">
-            <button
-              className="btn text-white w-100"
-              style={{ backgroundColor: "#6423CB", width: "130px" }}
-              onClick={logout}
-            >
-              Logout
-            </button>
+            {isLoggedIn ? (
+              <button
+                className="btn text-white w-100"
+                style={{ backgroundColor: "#6423CB", width: "130px" }}
+                onClick={logout}
+              >
+                Logout
+              </button>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
         <div
@@ -78,8 +85,8 @@ const Settings = ({ closeSettingsModal }) => {
           style={{ height: "100%" }}
         ></div>
         <div className="px-3 w-100">
-          {isGeneralTabState && <GeneralTab />}
-          {isControlTabState && <ControlsTab />}
+          {isGeneralTabState && <GeneralTab isLoggedIn={isLoggedIn} />}
+          {isControlTabState && <ControlsTab isLoggedIn={isLoggedIn} />}
         </div>
       </div>
     </>

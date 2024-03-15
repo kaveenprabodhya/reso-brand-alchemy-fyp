@@ -2,7 +2,7 @@ import { useState } from "react";
 import Webcamstreamcapture from "./webcamstreamcapture";
 import "./emotioncapture.css";
 
-const EmotionCapture = ({ webcamRef }) => {
+const EmotionCapture = ({ webcamRef, socket, streamingIntervalRef }) => {
   const [isStreaming, setIsStreaming] = useState(false);
 
   const handleStreamingStatusChange = (status) => {
@@ -23,6 +23,8 @@ const EmotionCapture = ({ webcamRef }) => {
             width="640"
             height="480"
             onStreamingStatusChange={handleStreamingStatusChange}
+            socket={socket}
+            streamingIntervalRef={streamingIntervalRef}
           />
         </div>
       </div>
