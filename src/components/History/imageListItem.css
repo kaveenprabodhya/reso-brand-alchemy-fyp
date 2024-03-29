@@ -23,8 +23,16 @@
   background-color: #9bace4;
 }
 
+.active > .img-name {
+  color: white;
+}
+
 .non-active {
   border: 3px solid #dfd5d5;
+}
+
+.non-active > .img-name {
+  color: black;
 }
 
 .popup-menu {

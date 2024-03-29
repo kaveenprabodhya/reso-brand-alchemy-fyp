@@ -1,88 +1,100 @@
-import { useState } from "react";
+import React from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup"; // For validation schema
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import css for react-toastify
+
+// Validation schema
+const loginValidationSchema = Yup.object({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required"),
+});
 
 const LoginForm = ({
   openRegisterModal,
   closeLoginModal,
   handleSetIsLogin,
 }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginValidationSchema,
+    onSubmit: async (values) => {
+      try {
+        const response = await fetch("http://localhost:5000/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        });
 
-  const openModal = () => {
-    closeLoginModal();
-    openRegisterModal();
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const loginPayload = {
-      email,
-      password,
-    };
-
-    try {
-      // Making the API request to the login endpoint
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginPayload),
-      });
-
-      if (response.ok) {
-        // Handle successful login here
-        const data = await response.json();
-        console.log("Login successful:", data);
-        localStorage.setItem("access_token", data.access_token);
-        handleSetIsLogin();
-        // Optionally, you could close the login modal and redirect the user
-        closeLoginModal();
-        // Redirect user or update UI accordingly
-      } else {
-        // Handle errors or unsuccessful login attempts
-        console.error("Login failed:", await response.text());
+        if (response.ok) {
+          const data = await response.json();
+          toast.success("Login successful!");
+          localStorage.setItem("access_token", data.access_token);
+          handleSetIsLogin();
+          closeLoginModal();
+        } else {
+          toast.error(
+            "Login failed. Please check your credentials and try again."
+          );
+        }
+      } catch (error) {
+        toast.error("Error during the login process. Please try again later.");
       }
-    } catch (error) {
-      console.error("Error during the login process:", error);
-    }
-  };
+    },
+  });
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <ToastContainer />
+      <form onSubmit={formik.handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
+          <label htmlFor="email" className="form-label">
             Email address
           </label>
           <input
             type="email"
             className="form-control"
-            id="exampleInputEmail1"
+            id="email"
             aria-describedby="emailHelp"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...formik.getFieldProps("email")}
           />
+          {formik.touched.email && formik.errors.email ? (
+            <div className="text-danger">{formik.errors.email}</div>
+          ) : null}
           <div id="emailHelp" className="form-text">
             We'll never share your email with anyone else.
           </div>
         </div>
         <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
+          <label htmlFor="password" className="form-label">
             Password
           </label>
           <input
             type="password"
             className="form-control"
-            id="exampleInputPassword1"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            id="password"
+            {...formik.getFieldProps("password")}
           />
+          {formik.touched.password && formik.errors.password ? (
+            <div className="text-danger">{formik.errors.password}</div>
+          ) : null}
         </div>
         <div className="mb-3">
           New to ResoBrandAlchemy?{" "}
-          <button className="btn btn-outline-info" onClick={openModal}>
+          <button
+            type="button"
+            className="btn btn-outline-info"
+            onClick={openRegisterModal}
+          >
             Signup here.
           </button>
         </div>

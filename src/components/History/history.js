@@ -3,7 +3,7 @@ import classes from "./history.module.css";
 import ImageList from "./imageList";
 import { useEffect } from "react";
 
-const HistoryTab = () => {
+const HistoryTab = ({ isLoggedIn }) => {
   const [imageList, setImageList] = useState([]);
   const [loadedImageData, setLoadedImageData] = useState({});
   const [activeImage, setActiveImage] = useState("");
@@ -37,31 +37,43 @@ const HistoryTab = () => {
 
   return (
     <>
-      <ImageList
-        imageList={imageList}
-        handleLoadImage={handleLoadImage}
-        activeImage={activeImage}
-      />
-      <div className="col d-flex flex-column justify-content-center align-items-center">
-        <div
-          className={`${classes.imageContainer} flex-column border border-3`}
-        >
-          {loadedImageData && (
-            <div className="d-flex justify-content-center align-items-center w-100 h-100">
-              <img
-                className={classes.brandImage}
-                src={loadedImageData.imgSrc}
-                alt="img-preview"
-                width="300px"
-                height="300px"
-              />
+      {isLoggedIn ? (
+        <>
+          {" "}
+          <ImageList
+            imageList={imageList}
+            handleLoadImage={handleLoadImage}
+            activeImage={activeImage}
+          />
+          <div className="col d-flex flex-column justify-content-center align-items-center">
+            <div
+              className={`${classes.imageContainer} flex-column border border-3`}
+            >
+              {loadedImageData && (
+                <div className="d-flex justify-content-center align-items-center w-100 h-100">
+                  <img
+                    className={classes.brandImage}
+                    src={loadedImageData.imgSrc}
+                    alt="img-preview"
+                    width="300px"
+                    height="300px"
+                  />
+                </div>
+              )}
+              <div className="w-100 text-white fw-bolder d-flex justify-content-end align-items-end pe-2 pb-1">
+                {loadedImageData.created}
+              </div>
             </div>
-          )}
-          <div className="w-100 text-white fw-bolder d-flex justify-content-end align-items-end pe-2 pb-1">
-            {loadedImageData.created}
           </div>
+        </>
+      ) : (
+        <div
+          className="w-100 h-100 d-flex justify-content-center align-items-center text-white"
+          style={{ fontSize: "20px", fontWeight: "bold" }}
+        >
+          Login to access your image history
         </div>
-      </div>
+      )}
     </>
   );
 };

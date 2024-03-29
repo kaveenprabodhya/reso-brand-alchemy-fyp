@@ -41,11 +41,11 @@ const ImageListItem = ({ imageData, handleLoadImage, isActive }) => {
         }`}
       >
         <div
-          className="w-100 h-100 d-flex align-items-center"
+          className="w-100 h-100 d-flex align-items-center img-name"
           style={{ position: "relative", cursor: "pointer" }}
         >
           <div
-            className="text-dark fw-bold w-100 ps-2"
+            className="fw-bold w-100 ps-2"
             style={{ fontSize: "12px" }}
             onClick={handleLoadImage.bind(this, imageData)}
           >

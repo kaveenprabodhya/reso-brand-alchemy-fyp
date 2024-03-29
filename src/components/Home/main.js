@@ -20,8 +20,14 @@ const Main = () => {
   const [visibleProfileModal, setProfileModalVisible] = useState(false);
   const [user, setUser] = useState({});
 
-  const openLoginModal = () => setLoginModalVisible(true);
-  const openRegisterModal = () => setRegisterModalVisible(true);
+  const openLoginModal = () => {
+    if (visibleRegisterModal) setRegisterModalVisible(false);
+    setLoginModalVisible(true);
+  };
+  const openRegisterModal = () => {
+    if (visibleLoginModal) setLoginModalVisible(false);
+    setRegisterModalVisible(true);
+  };
   const openSettingsModal = () => setSettingsModalVisible(true);
   const openProfileModal = () => setProfileModalVisible(true);
 
@@ -64,7 +70,7 @@ const Main = () => {
     const logoutUser = () => {
       localStorage.removeItem("access_token"); // Remove token from localStorage
       setIsLoggedIn(false);
-      setUser(null); // Clear user state
+      setUser({}); // Clear user state
       // Optional: Redirect to login
     };
 
@@ -121,6 +127,7 @@ const Main = () => {
           <RegisterForm
             openLoginModal={openLoginModal}
             closeRegisterModal={closeRegisterModal}
+            handleSetIsLogin={handleSetIsLogin}
           />
         </Modal>
       )}
@@ -145,7 +152,12 @@ const Main = () => {
           onClose={closeProfileModal}
           padding="0"
         >
-          <Profile user={user} />
+          <Profile
+            user={user}
+            handleLogout={handleLogOut}
+            isLoggedIn={isLoggedIn}
+            closeProfileModal={closeProfileModal}
+          />
         </Modal>
       )}
       <div
@@ -162,7 +174,7 @@ const Main = () => {
           user={user}
         />
         {homeClicked && <Home isLoggedIn={isLoggedIn} />}
-        {historyClicked && <HistoryTab />}
+        {historyClicked && <HistoryTab isLoggedIn={isLoggedIn} />}
       </div>
     </>
   );
