@@ -83,7 +83,7 @@ const Main = () => {
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
-  }, []);
+  }, [isLoggedIn]);
 
   const handleLogOut = () => {
     setIsLoggedIn(false);

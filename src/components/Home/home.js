@@ -14,6 +14,12 @@ const Home = ({ isLoggedIn }) => {
   const socket = useRef(null);
   const streamingIntervalRef = useRef(null);
   const [emotionColor, setEmotionColor] = useState({});
+  const [imgSrc, setImgSrc] = useState("");
+  const [isImgClick, setIsImgClick] = useState(false);
+
+  const handleOnClickImg = (bool) => setIsImgClick(true);
+
+  const handleSetImgSrc = (src) => setImgSrc(src);
 
   useEffect(() => {
     socket.current = io("http://localhost:5000");
@@ -149,11 +155,17 @@ const Home = ({ isLoggedIn }) => {
   return (
     <>
       <div className="col-7">
-        <EmotionCapture
-          webcamRef={webcamRef}
-          socket={socket}
-          streamingIntervalRef={streamingIntervalRef}
-        />
+        {isImgClick ? (
+          <div className="d-flex justify-content-center align-items-center h-100">
+            <img src={imgSrc} alt="" />
+          </div>
+        ) : (
+          <EmotionCapture
+            webcamRef={webcamRef}
+            socket={socket}
+            streamingIntervalRef={streamingIntervalRef}
+          />
+        )}
       </div>
       <div
         className={classes.verticalSeparator}
@@ -176,6 +188,8 @@ const Home = ({ isLoggedIn }) => {
           deleted={deleted}
           emotions={emotionColor}
           isLoggedIn={isLoggedIn}
+          handleOnClickImg={handleOnClickImg}
+          handleSetImgSrc={handleSetImgSrc}
         />
       </div>
     </>

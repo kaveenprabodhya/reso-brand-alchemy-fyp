@@ -19,12 +19,20 @@ const ArtistPreferences = ({
   deleted,
   emotions,
   isLoggedIn,
+  handleOnClickImg,
+  handleSetImgSrc,
 }) => {
   const [color, setColor] = useState("#fff");
+  const [detectedColor, setDetectedColor] = useState("");
   const [preferenceTabSelected, setPreferenceTabSelected] = useState(true);
   const [textpromptTabSelected, setTextPromptTabSelected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isBrandCreated, setIsBrandCreated] = useState(false);
 
   const handleSetColor = (color) => setColor(color.hex);
+  const handleSetBrandCreated = (bool) => setIsBrandCreated(bool);
+  const handleSetIsLoading = (bool) => setIsLoading(bool);
+
   const handleOnNext = () => {
     setTextPromptTabSelected(true);
     setPreferenceTabSelected(false);
@@ -59,8 +67,12 @@ const ArtistPreferences = ({
                 handleStopCapture={handleStopCapture}
                 showStartButton={showStartButton}
               />
-              <h6 className="me-auto mt-3 mb-3 text-white">Your preferences</h6>
-              {preferenceTabSelected && (
+              {isBrandCreated ? null : (
+                <h6 className="me-auto mt-3 mb-3 text-white">
+                  Your preferences
+                </h6>
+              )}
+              {/* {preferenceTabSelected && (
                 <PreferencesTab
                   color={color}
                   handleSetColor={handleSetColor}
@@ -68,9 +80,17 @@ const ArtistPreferences = ({
                   handleOnNext={handleOnNext}
                 />
               )}
-              {textpromptTabSelected && (
-                <TextPromptTab handleOnBack={handleOnBack} />
-              )}
+              {textpromptTabSelected && ( */}
+              <TextPromptTab
+                handleOnBack={handleOnBack}
+                isBrandCreated={isBrandCreated}
+                isLoading={isLoading}
+                handleSetIsLoading={handleSetIsLoading}
+                handleSetBrandCreated={handleSetBrandCreated}
+                handleOnClickImg={handleOnClickImg}
+                handleSetImgSrc={handleSetImgSrc}
+              />
+              {/* )} */}
             </>
           ) : (
             <div>Sign into Generate Brand Images</div>
