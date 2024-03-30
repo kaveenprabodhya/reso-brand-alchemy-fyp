@@ -52,25 +52,27 @@ const ArtistPreferences = ({
         >
           {isLoggedIn ? (
             <>
-              <MP3Player
-                deleted={deleted}
-                file={file}
-                fileInputRef={fileInputRef}
-                handleAudioEnd={handleAudioEnd}
-                handleChange={handleChange}
-                handleClick={handleClick}
-                handleDelete={handleDelete}
-                handleDragLeave={handleDragLeave}
-                handleDragOver={handleDragOver}
-                handleDrop={handleDrop}
-                handleStartCapture={handleStartCapture}
-                handleStopCapture={handleStopCapture}
-                showStartButton={showStartButton}
-              />
               {isBrandCreated ? null : (
-                <h6 className="me-auto mt-3 mb-3 text-white">
-                  Your preferences
-                </h6>
+                <>
+                  <MP3Player
+                    deleted={deleted}
+                    file={file}
+                    fileInputRef={fileInputRef}
+                    handleAudioEnd={handleAudioEnd}
+                    handleChange={handleChange}
+                    handleClick={handleClick}
+                    handleDelete={handleDelete}
+                    handleDragLeave={handleDragLeave}
+                    handleDragOver={handleDragOver}
+                    handleDrop={handleDrop}
+                    handleStartCapture={handleStartCapture}
+                    handleStopCapture={handleStopCapture}
+                    showStartButton={showStartButton}
+                  />
+                  <h6 className="me-auto mt-3 mb-3 text-white">
+                    Your preferences
+                  </h6>
+                </>
               )}
               {/* {preferenceTabSelected && (
                 <PreferencesTab
@@ -93,7 +95,7 @@ const ArtistPreferences = ({
               {/* )} */}
             </>
           ) : (
-            <div>Sign into Generate Brand Images</div>
+            <div>Login into Generate Brand Images</div>
           )}
         </div>
       </div>

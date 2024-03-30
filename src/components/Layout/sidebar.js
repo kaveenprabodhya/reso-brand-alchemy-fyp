@@ -41,7 +41,7 @@ const SideBar = ({
                     className="w-100 d-flex justify-content-end"
                     style={{ fontSize: "14px", fontWeight: "bold" }}
                   >
-                    {user.firstName + " " + user.lastName}
+                    {user?.firstName + " " + user?.lastName}
                   </div>
                 </span>
               </button>

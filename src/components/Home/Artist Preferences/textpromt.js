@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+
 const TextPromptTab = ({
   handleOnBack,
   isLoading,
@@ -6,20 +8,67 @@ const TextPromptTab = ({
   handleSetBrandCreated,
   handleOnClickImg,
   handleSetImgSrc,
+  isLoggedIn,
 }) => {
+  const [imgs, setImgs] = useState([]);
+  const imgOneRef = useRef(null);
+  const imgTwoRef = useRef(null);
+  const imgThreeRef = useRef(null);
+  const imgFourRef = useRef(null);
+  const imgFiveRef = useRef(null);
+
+  useEffect(() => {
+    if (
+      imgs.length >= 0 &&
+      imgOneRef.current &&
+      imgTwoRef.current &&
+      imgThreeRef.current &&
+      imgFourRef.current &&
+      imgFiveRef.current
+    ) {
+      imgOneRef.current.src = imgs[0];
+      imgTwoRef.current.src = imgs[1];
+      imgThreeRef.current.src = imgs[2];
+      imgFourRef.current.src = imgs[3];
+      imgFiveRef.current.src = imgs[4];
+    }
+  }, [imgs]);
+
   const handleCreateImage = () => {
     handleSetIsLoading(true);
     handleSetBrandCreated(true);
-    setTimeout(() => {
-      handleSetIsLoading(false);
-      handleSetImgSrc(
-        "https://mbluxury1.s3.amazonaws.com/2022/02/25172616/chanel-1.jpg"
-      );
-    }, 3000);
+
+    const description =
+      "Create a logo with named \"RBV\" incorporating a simple, yet futuristic font with harmonizing colors [red, blue]. Incorporate abstract shapes or symbols that subtly reference musical motifs such as sound waves, a stylized version of the artist's initials, or an emblem that captures the spirit of their music's ability to evoke deep emotional responses. The overall feel should be sleek, professional, and forward-thinking, appealing to a young, tech-savvy audience.";
+
+    fetch("http://localhost:5000/api/image/generate-image", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+      body: JSON.stringify({ text: description }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Failed to fetch image history");
+        }
+      })
+      .then((data) => {
+        handleSetIsLoading(false);
+        setImgs(data);
+      })
+      .catch((error) => {
+        handleSetIsLoading(false);
+        // toast.error("Error fetching your history. Please try again later.");
+      });
   };
 
-  const handleImgClick = () => {
+  const handleImgClick = (imgSrc) => {
     handleOnClickImg(true);
+    handleSetImgSrc(imgSrc);
   };
 
   return (
@@ -29,13 +78,63 @@ const TextPromptTab = ({
       ) : (
         <>
           {isBrandCreated ? (
-            <div className="m-2 border">
-              <img
-                src="https://mbluxury1.s3.amazonaws.com/2022/02/25172616/chanel-1.jpg"
-                alt=""
-                className="w-100 h-100"
-                onClick={handleImgClick}
-              />
+            <div className="container">
+              <div className="row my-3">
+                <div className="col-12">
+                  <img
+                    ref={imgOneRef}
+                    src={imgOneRef.current?.src}
+                    alt=""
+                    className="img-fluid"
+                    onClick={() => handleImgClick(imgOneRef.current?.src)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
+              </div>
+              <div className="row mb-2">
+                <div className="col">
+                  <img
+                    ref={imgTwoRef}
+                    src={imgTwoRef.current?.src}
+                    alt=""
+                    className="img-fluid"
+                    onClick={() => handleImgClick(imgTwoRef.current?.src)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
+                <div className="col">
+                  <img
+                    ref={imgThreeRef}
+                    src={imgThreeRef.current?.src}
+                    alt=""
+                    className="img-fluid"
+                    onClick={() => handleImgClick(imgThreeRef.current?.src)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
+              </div>
+              <div className="row mb-2">
+                <div className="col">
+                  <img
+                    ref={imgFourRef}
+                    src={imgFourRef.current?.src}
+                    alt=""
+                    className="img-fluid"
+                    onClick={() => handleImgClick(imgFourRef.current?.src)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
+                <div className="col">
+                  <img
+                    ref={imgFiveRef}
+                    src={imgFiveRef.current?.src}
+                    alt=""
+                    className="img-fluid"
+                    onClick={() => handleImgClick(imgFiveRef.current?.src)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
+              </div>
             </div>
           ) : (
             <>

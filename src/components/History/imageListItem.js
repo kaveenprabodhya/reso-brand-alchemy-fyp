@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./imageListItem.css";
 
-const ImageListItem = ({ imageData, handleLoadImage, isActive }) => {
+const ImageListItem = ({ brandData, handleLoadImage, isActive }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleDelete = () => {
@@ -47,9 +47,9 @@ const ImageListItem = ({ imageData, handleLoadImage, isActive }) => {
           <div
             className="fw-bold w-100 ps-2"
             style={{ fontSize: "12px" }}
-            onClick={handleLoadImage.bind(this, imageData)}
+            onClick={handleLoadImage.bind(this, brandData)}
           >
-            {imageData.imgName}
+            {brandData.brandName}
           </div>
         </div>
         <div

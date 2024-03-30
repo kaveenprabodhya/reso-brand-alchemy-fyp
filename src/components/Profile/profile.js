@@ -37,8 +37,8 @@ const Profile = ({ user, handleLogout, isLoggedIn, closeProfileModal }) => {
         </div>
         <div className="col d-flex align-items-center">
           <div>
-            <div className="pb-2">First Name: {user.firstName}</div>
-            <div className="pb-2">Last Name: {user.lastName}</div>
+            <div className="pb-2">First Name: {user?.firstName}</div>
+            <div className="pb-2">Last Name: {user?.lastName}</div>
             <div className="pb-2">Email: {user?.email}</div>
           </div>
         </div>

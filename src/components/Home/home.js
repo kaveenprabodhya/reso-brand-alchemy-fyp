@@ -14,12 +14,12 @@ const Home = ({ isLoggedIn }) => {
   const socket = useRef(null);
   const streamingIntervalRef = useRef(null);
   const [emotionColor, setEmotionColor] = useState({});
-  const [imgSrc, setImgSrc] = useState("");
+  const [imgSrcSelected, setImgSrcSelected] = useState("");
   const [isImgClick, setIsImgClick] = useState(false);
 
   const handleOnClickImg = (bool) => setIsImgClick(true);
 
-  const handleSetImgSrc = (src) => setImgSrc(src);
+  const handleSetImgSrc = (src) => setImgSrcSelected(src);
 
   useEffect(() => {
     socket.current = io("http://localhost:5000");
@@ -157,7 +157,7 @@ const Home = ({ isLoggedIn }) => {
       <div className="col-7">
         {isImgClick ? (
           <div className="d-flex justify-content-center align-items-center h-100">
-            <img src={imgSrc} alt="" />
+            <img src={imgSrcSelected} alt="" className="img-fluid w-75" />
           </div>
         ) : (
           <EmotionCapture

@@ -19,6 +19,8 @@ const Main = () => {
   const [visibleSettingsModal, setSettingsModalVisible] = useState(false);
   const [visibleProfileModal, setProfileModalVisible] = useState(false);
   const [user, setUser] = useState({});
+  const [visiblePreviewImg, setPreviewImgVisible] = useState(false);
+  const [previewImg, setPreviewImg] = useState("");
 
   const openLoginModal = () => {
     if (visibleRegisterModal) setRegisterModalVisible(false);
@@ -35,9 +37,26 @@ const Main = () => {
   const closeRegisterModal = () => setRegisterModalVisible(false);
   const closeSettingsModal = () => setSettingsModalVisible(false);
   const closeProfileModal = () => setProfileModalVisible(false);
+  const closePreviewImg = () => setPreviewImgVisible(false);
 
   const handleSetIsLogin = () => {
     setIsLoggedIn(true);
+  };
+
+  const handleOnClickPreviewImg = (bool) => {
+    setPreviewImgVisible(bool);
+  };
+
+  const handleSetPreviewImgSrc = (src) => {
+    setPreviewImg(src);
+  };
+
+  const handleClose = () => {
+    closeLoginModal();
+    closeRegisterModal();
+    closeSettingsModal();
+    closeProfileModal();
+    closePreviewImg();
   };
 
   useEffect(() => {
@@ -87,6 +106,7 @@ const Main = () => {
 
   const handleLogOut = () => {
     setIsLoggedIn(false);
+    setUser({});
   };
 
   const onHomeClick = () => {
@@ -104,7 +124,10 @@ const Main = () => {
       {(visibleLoginModal ||
         visibleRegisterModal ||
         visibleSettingsModal ||
-        visibleProfileModal) && <div className="modal-backdrop"></div>}
+        visibleProfileModal ||
+        visiblePreviewImg) && (
+        <div className="modal-backdrop" onClick={handleClose}></div>
+      )}
       {visibleLoginModal && (
         <Modal
           isOpen={visibleLoginModal}
@@ -160,6 +183,11 @@ const Main = () => {
           />
         </Modal>
       )}
+      {visiblePreviewImg && (
+        <Modal title="" isOpen={visiblePreviewImg} onClose={closePreviewImg}>
+          <img src={previewImg} alt="" className="img-fluid" />
+        </Modal>
+      )}
       <div
         className="d-flex"
         style={{ height: "100vh", backgroundColor: "#9BACE4" }}
@@ -174,7 +202,13 @@ const Main = () => {
           user={user}
         />
         {homeClicked && <Home isLoggedIn={isLoggedIn} />}
-        {historyClicked && <HistoryTab isLoggedIn={isLoggedIn} />}
+        {historyClicked && (
+          <HistoryTab
+            isLoggedIn={isLoggedIn}
+            handleOnClickPreviewImg={handleOnClickPreviewImg}
+            handleSetPreviewImgSrc={handleSetPreviewImgSrc}
+          />
+        )}
       </div>
     </>
   );

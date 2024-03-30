@@ -1,6 +1,6 @@
 import ImageListItem from "./imageListItem";
 
-const ImageList = ({ imageList, handleLoadImage, activeImage }) => {
+const ImageList = ({ imageList, handleLoadImage, activeBrandId }) => {
   return (
     <>
       <div
@@ -11,13 +11,13 @@ const ImageList = ({ imageList, handleLoadImage, activeImage }) => {
           overflowY: "scroll",
         }}
       >
-        {imageList.map((imageData) => {
+        {imageList.map((brandData) => {
           return (
             <ImageListItem
-              key={imageData.id}
-              imageData={imageData}
+              key={brandData.id}
+              brandData={brandData}
               handleLoadImage={handleLoadImage}
-              isActive={activeImage === imageData.imgName}
+              isActive={activeBrandId === brandData.id}
             />
           );
         })}
