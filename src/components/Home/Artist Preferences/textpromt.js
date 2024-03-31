@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TextPromptTab = ({
   handleOnBack,
   isLoading,
-  isBrandCreated,
   handleSetIsLoading,
-  handleSetBrandCreated,
   handleOnClickImg,
   handleSetImgSrc,
-  isLoggedIn,
+  color,
+  emotionsWithColors,
 }) => {
   const [imgs, setImgs] = useState([]);
   const imgOneRef = useRef(null);
@@ -16,6 +17,10 @@ const TextPromptTab = ({
   const imgThreeRef = useRef(null);
   const imgFourRef = useRef(null);
   const imgFiveRef = useRef(null);
+  const [brandName, setBrandName] = useState("");
+  const [isBrandCreated, setIsBrandCreated] = useState(false);
+
+  const handleSetBrandCreated = (bool) => setIsBrandCreated(bool);
 
   useEffect(() => {
     if (
@@ -34,12 +39,28 @@ const TextPromptTab = ({
     }
   }, [imgs]);
 
+  const getColors = () => {
+    let allColors = [];
+    Object.values(emotionsWithColors).forEach((color) => {
+      if (!allColors.includes(color)) {
+        allColors.push(color);
+      }
+    });
+    if (color && !allColors.includes(color)) {
+      allColors.push(color);
+    }
+    console.log(allColors);
+    return allColors;
+  };
+
   const handleCreateImage = () => {
+    if (!brandName || brandName.length <= 0) {
+      toast.error("Brand name is required.");
+      return;
+    }
+
     handleSetIsLoading(true);
     handleSetBrandCreated(true);
-
-    const description =
-      "Create a logo with named \"RBV\" incorporating a simple, yet futuristic font with harmonizing colors [red, blue]. Incorporate abstract shapes or symbols that subtly reference musical motifs such as sound waves, a stylized version of the artist's initials, or an emblem that captures the spirit of their music's ability to evoke deep emotional responses. The overall feel should be sleek, professional, and forward-thinking, appealing to a young, tech-savvy audience.";
 
     fetch("http://localhost:5000/api/image/generate-image", {
       method: "POST",
@@ -47,7 +68,7 @@ const TextPromptTab = ({
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
-      body: JSON.stringify({ text: description }),
+      body: JSON.stringify({ brandName: brandName, colors: getColors() }),
     })
       .then((response) => {
         if (response.ok) {
@@ -58,11 +79,15 @@ const TextPromptTab = ({
       })
       .then((data) => {
         handleSetIsLoading(false);
-        setImgs(data);
+        toast.success("Synthesizing Successful!");
+        console.log(data.local_urls);
+        setImgs(data.local_urls);
       })
       .catch((error) => {
+        toast.error("Error: " + error.message);
+      })
+      .finally(() => {
         handleSetIsLoading(false);
-        // toast.error("Error fetching your history. Please try again later.");
       });
   };
 
@@ -77,6 +102,7 @@ const TextPromptTab = ({
         <div>Loading...</div>
       ) : (
         <>
+          <ToastContainer />
           {isBrandCreated ? (
             <div className="container">
               <div className="row my-3">
@@ -155,27 +181,17 @@ const TextPromptTab = ({
                   className="text-white m-3"
                   style={{ textAlign: "justify" }}
                 >
-                  Create a logo with named{" "}
-                  {
-                    <input
-                      type="text"
-                      placeholder="Type Brand Name"
-                      className="form-control"
-                      style={{
-                        display: "inline-block",
-                        width: "auto",
-                        verticalAlign: "middle",
-                      }}
-                    />
-                  }{" "}
-                  incorporating a simple, yet futuristic font with harmonizing
-                  colors [red, blue]. Incorporate abstract shapes or symbols
-                  that subtly reference musical motifs such as sound waves, a
-                  stylized version of the artist's initials, or an emblem that
-                  captures the spirit of their music's ability to evoke deep
-                  emotional responses. The overall feel should be sleek,
-                  professional, and forward-thinking, appealing to a young,
-                  tech-savvy audience.
+                  <input
+                    type="text"
+                    placeholder="Type Brand Name"
+                    className="form-control w-100"
+                    onChange={(e) => setBrandName(e.target.value)}
+                    style={{
+                      display: "inline-block",
+                      width: "auto",
+                      verticalAlign: "middle",
+                    }}
+                  />
                 </div>
               </div>
               <div className="ms-auto">

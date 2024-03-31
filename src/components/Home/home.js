@@ -13,13 +13,16 @@ const Home = ({ isLoggedIn }) => {
   const [deleted, setDeleted] = useState(false);
   const socket = useRef(null);
   const streamingIntervalRef = useRef(null);
-  const [emotionColor, setEmotionColor] = useState({});
+  const [emotionsWithColors, setEmotionsWithColor] = useState({});
   const [imgSrcSelected, setImgSrcSelected] = useState("");
   const [isImgClick, setIsImgClick] = useState(false);
+  const [isPlayerVisible, setIsPlayerVisible] = useState(true);
 
   const handleOnClickImg = (bool) => setIsImgClick(true);
 
   const handleSetImgSrc = (src) => setImgSrcSelected(src);
+
+  const handlePlayerVisible = (bool) => setIsPlayerVisible(bool);
 
   useEffect(() => {
     socket.current = io("http://localhost:5000");
@@ -29,7 +32,7 @@ const Home = ({ isLoggedIn }) => {
     });
 
     socket.current.on("emotion_analysis_results", (data) => {
-      setEmotionColor((prev) => ({ ...prev, ...data.results }));
+      setEmotionsWithColor((prev) => ({ ...prev, ...data.results }));
     });
 
     socket.current.on("frame_status", (data) => {
@@ -150,6 +153,7 @@ const Home = ({ isLoggedIn }) => {
         socket.current.disconnect();
       }
     }
+    handlePlayerVisible(false);
   };
 
   return (
@@ -186,10 +190,11 @@ const Home = ({ isLoggedIn }) => {
           handleDragOver={handleDragOver}
           handleDrop={handleDrop}
           deleted={deleted}
-          emotions={emotionColor}
+          emotionsWithColors={emotionsWithColors}
           isLoggedIn={isLoggedIn}
           handleOnClickImg={handleOnClickImg}
           handleSetImgSrc={handleSetImgSrc}
+          isPlayerVisible={isPlayerVisible}
         />
       </div>
     </>

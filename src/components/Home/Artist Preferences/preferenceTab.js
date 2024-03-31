@@ -1,12 +1,17 @@
 import classes from "./artistpreference.module.css";
 import PickColor from "../colorpicker";
 
-const PreferencesTab = ({ emotions, color, handleSetColor, handleOnNext }) => {
+const PreferencesTab = ({
+  emotionsWithColors,
+  color,
+  handleSetColor,
+  handleOnNext,
+}) => {
   return (
     <>
       <div
         className="bg-white mt-2"
-        style={{ width: "100%", height: "50%", overflowY: "auto" }}
+        style={{ width: "100%", height: "auto", overflowY: "auto" }}
       >
         <div className="bg-secondary w-100 my-2 py-1 opacity-50 text-white">
           <div className="ps-2 pt-2">Emotions Captured</div>
@@ -19,17 +24,19 @@ const PreferencesTab = ({ emotions, color, handleSetColor, handleOnNext }) => {
               height: "100%",
             }}
           >
-            {Object.keys(emotions).length <= 0 && (
+            {Object.keys(emotionsWithColors).length <= 0 && (
               <div className="d-flex border justify-content-center align-items-center">
                 No emotions captured.
               </div>
             )}
             <ul className="list-group list-group-flush rounded">
-              {Object.entries(emotions).map(([emotion, color], index) => (
-                <li className="list-group-item" key={index}>
-                  {emotion}
-                </li>
-              ))}
+              {Object.entries(emotionsWithColors).map(
+                ([emotion, color], index) => (
+                  <li className="list-group-item" key={index}>
+                    {emotion}
+                  </li>
+                )
+              )}
             </ul>
           </div>
         </div>
@@ -44,31 +51,33 @@ const PreferencesTab = ({ emotions, color, handleSetColor, handleOnNext }) => {
               height: "100%",
             }}
           >
-            {Object.keys(emotions).length <= 0 ? (
+            {Object.keys(emotionsWithColors).length <= 0 ? (
               <div className="d-flex border justify-content-center align-items-center">
                 No color suggestions.
               </div>
             ) : (
               <div className="d-flex flex-wrap">
-                {Object.entries(emotions).map(([emotion, color], index) => (
-                  <div
-                    className="bg-white d-flex align-items-center justify-content-center"
-                    style={{
-                      height: "75px",
-                      width: "75px",
-                      margin: "2px",
-                    }}
-                    key={index}
-                  >
+                {Object.entries(emotionsWithColors).map(
+                  ([emotion, color], index) => (
                     <div
+                      className="bg-white d-flex align-items-center justify-content-center"
                       style={{
-                        backgroundColor: color,
-                        width: "68px",
-                        height: "68px",
+                        height: "75px",
+                        width: "75px",
+                        margin: "2px",
                       }}
-                    ></div>
-                  </div>
-                ))}
+                      key={index}
+                    >
+                      <div
+                        style={{
+                          backgroundColor: color,
+                          width: "68px",
+                          height: "68px",
+                        }}
+                      ></div>
+                    </div>
+                  )
+                )}
               </div>
             )}
           </div>
@@ -81,12 +90,12 @@ const PreferencesTab = ({ emotions, color, handleSetColor, handleOnNext }) => {
           </div>
         </div>
       </div>
-      <div className="ms-auto">
+      <div className="ms-auto mb-3">
         <button
           className="btn mt-4 text-white"
           style={{ backgroundColor: "#A753FB", width: "90px" }}
           onClick={handleOnNext}
-          disabled={Object.keys(emotions).length === 0}
+          disabled={Object.keys(emotionsWithColors).length === 0}
         >
           Next{" "}
           <span>

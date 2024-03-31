@@ -17,20 +17,18 @@ const ArtistPreferences = ({
   handleDelete,
   fileInputRef,
   deleted,
-  emotions,
+  emotionsWithColors,
   isLoggedIn,
   handleOnClickImg,
   handleSetImgSrc,
+  isPlayerVisible,
 }) => {
   const [color, setColor] = useState("#fff");
-  const [detectedColor, setDetectedColor] = useState("");
   const [preferenceTabSelected, setPreferenceTabSelected] = useState(true);
   const [textpromptTabSelected, setTextPromptTabSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isBrandCreated, setIsBrandCreated] = useState(false);
 
   const handleSetColor = (color) => setColor(color.hex);
-  const handleSetBrandCreated = (bool) => setIsBrandCreated(bool);
   const handleSetIsLoading = (bool) => setIsLoading(bool);
 
   const handleOnNext = () => {
@@ -52,7 +50,7 @@ const ArtistPreferences = ({
         >
           {isLoggedIn ? (
             <>
-              {isBrandCreated ? null : (
+              {!isPlayerVisible ? null : (
                 <>
                   <MP3Player
                     deleted={deleted}
@@ -74,25 +72,25 @@ const ArtistPreferences = ({
                   </h6>
                 </>
               )}
-              {/* {preferenceTabSelected && (
+              {preferenceTabSelected && (
                 <PreferencesTab
                   color={color}
                   handleSetColor={handleSetColor}
-                  emotions={emotions}
+                  emotionsWithColors={emotionsWithColors}
                   handleOnNext={handleOnNext}
                 />
               )}
-              {textpromptTabSelected && ( */}
-              <TextPromptTab
-                handleOnBack={handleOnBack}
-                isBrandCreated={isBrandCreated}
-                isLoading={isLoading}
-                handleSetIsLoading={handleSetIsLoading}
-                handleSetBrandCreated={handleSetBrandCreated}
-                handleOnClickImg={handleOnClickImg}
-                handleSetImgSrc={handleSetImgSrc}
-              />
-              {/* )} */}
+              {textpromptTabSelected && (
+                <TextPromptTab
+                  handleOnBack={handleOnBack}
+                  isLoading={isLoading}
+                  emotionsWithColors={emotionsWithColors}
+                  color={color}
+                  handleSetIsLoading={handleSetIsLoading}
+                  handleOnClickImg={handleOnClickImg}
+                  handleSetImgSrc={handleSetImgSrc}
+                />
+              )}
             </>
           ) : (
             <div>Login into Generate Brand Images</div>

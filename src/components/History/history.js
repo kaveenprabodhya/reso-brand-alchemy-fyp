@@ -1,8 +1,6 @@
 import { useRef, useState } from "react";
 import ImageList from "./imageList";
 import { useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const HistoryTab = ({
   isLoggedIn,
@@ -17,7 +15,7 @@ const HistoryTab = ({
   const imgPreviewFiveRef = useRef(null);
 
   const [loadedImageData, setLoadedImageData] = useState({});
-  const [activeBrandId, setActiveBrandId] = useState(1);
+  const [activeBrandId, setActiveBrandId] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/image/get-history", {
@@ -37,6 +35,7 @@ const HistoryTab = ({
       .then((data) => {
         setImageList(data);
         setLoadedImageData(data[0]);
+        setActiveBrandId(data[0].id);
       })
       .catch((error) => {
         // toast.error("Error fetching your history. Please try again later.");
@@ -57,7 +56,6 @@ const HistoryTab = ({
     <>
       {isLoggedIn ? (
         <>
-          <ToastContainer />
           <ImageList
             imageList={imageList}
             handleLoadImage={handleLoadImage}

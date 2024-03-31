@@ -18,7 +18,7 @@ const MP3Player = ({
 }) => {
   return (
     <>
-      <div className="mb-3 w-100">
+      <div className="mb-3 mt-4 w-100">
         <div className={classes.area}>
           <Mp3Uploader
             styleClasses={classes}

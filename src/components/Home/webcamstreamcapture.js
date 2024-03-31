@@ -30,7 +30,6 @@ const WebcamStreamCapture = (
 
   const frameInterval = 2000;
 
-  // Function to start streaming
   const startStream = useCallback(async () => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       try {
@@ -41,13 +40,11 @@ const WebcamStreamCapture = (
           videoRef.current.srcObject = stream;
           notifyStreamingStatus(true);
 
-          // Prepare canvas for capturing and sending frames
           const canvas = canvasRef.current;
           canvas.width = width;
           canvas.height = height;
           const ctx = canvas.getContext("2d");
 
-          // Capture and send frames at specified frame rate
           streamingIntervalRef.current = setInterval(() => {
             ctx.drawImage(videoRef.current, 0, 0, width, height);
             canvas.toBlob((blob) => {
@@ -63,7 +60,6 @@ const WebcamStreamCapture = (
     }
   }, [width, height, notifyStreamingStatus, streamingIntervalRef, socket]);
 
-  // Function to stop streaming
   const stopStream = useCallback(() => {
     if (streamingIntervalRef.current) {
       clearInterval(streamingIntervalRef.current);
@@ -79,7 +75,6 @@ const WebcamStreamCapture = (
     }
   }, [notifyStreamingStatus, socket, streamingIntervalRef]);
 
-  // Expose startStream and stopStream methods to parent through ref
   useImperativeHandle(ref, () => ({
     startStream,
     stopStream,
