@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { ClockLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -99,7 +100,8 @@ const TextPromptTab = ({
   return (
     <>
       {isLoading ? (
-        <div>Loading...</div>
+        // <ClockLoader color="#36D7B7" />
+        <ClockLoader color="#ffffff" />
       ) : (
         <>
           <ToastContainer />

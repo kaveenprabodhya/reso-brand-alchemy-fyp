@@ -22,6 +22,7 @@ const ArtistPreferences = ({
   handleOnClickImg,
   handleSetImgSrc,
   isPlayerVisible,
+  isCapturing,
 }) => {
   const [color, setColor] = useState("#fff");
   const [preferenceTabSelected, setPreferenceTabSelected] = useState(true);
@@ -78,6 +79,7 @@ const ArtistPreferences = ({
                   handleSetColor={handleSetColor}
                   emotionsWithColors={emotionsWithColors}
                   handleOnNext={handleOnNext}
+                  isCapturing={isCapturing}
                 />
               )}
               {textpromptTabSelected && (

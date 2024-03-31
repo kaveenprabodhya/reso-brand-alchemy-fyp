@@ -1,11 +1,13 @@
 import classes from "./artistpreference.module.css";
 import PickColor from "../colorpicker";
+import { ClockLoader } from "react-spinners";
 
 const PreferencesTab = ({
   emotionsWithColors,
   color,
   handleSetColor,
   handleOnNext,
+  isCapturing,
 }) => {
   return (
     <>
@@ -24,11 +26,12 @@ const PreferencesTab = ({
               height: "100%",
             }}
           >
-            {Object.keys(emotionsWithColors).length <= 0 && (
+            {Object.keys(emotionsWithColors).length <= 0 && !isCapturing && (
               <div className="d-flex border justify-content-center align-items-center">
                 No emotions captured.
               </div>
             )}
+            {isCapturing && <ClockLoader />}
             <ul className="list-group list-group-flush rounded">
               {Object.entries(emotionsWithColors).map(
                 ([emotion, color], index) => (
@@ -51,35 +54,35 @@ const PreferencesTab = ({
               height: "100%",
             }}
           >
-            {Object.keys(emotionsWithColors).length <= 0 ? (
+            {Object.keys(emotionsWithColors).length <= 0 && !isCapturing && (
               <div className="d-flex border justify-content-center align-items-center">
                 No color suggestions.
               </div>
-            ) : (
-              <div className="d-flex flex-wrap">
-                {Object.entries(emotionsWithColors).map(
-                  ([emotion, color], index) => (
-                    <div
-                      className="bg-white d-flex align-items-center justify-content-center"
-                      style={{
-                        height: "75px",
-                        width: "75px",
-                        margin: "2px",
-                      }}
-                      key={index}
-                    >
-                      <div
-                        style={{
-                          backgroundColor: color,
-                          width: "68px",
-                          height: "68px",
-                        }}
-                      ></div>
-                    </div>
-                  )
-                )}
-              </div>
             )}
+            {isCapturing && <ClockLoader />}
+            <div className="d-flex flex-wrap">
+              {Object.entries(emotionsWithColors).map(
+                ([emotion, color], index) => (
+                  <div
+                    className="bg-white d-flex align-items-center justify-content-center"
+                    style={{
+                      height: "75px",
+                      width: "75px",
+                      margin: "2px",
+                    }}
+                    key={index}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: color,
+                        width: "68px",
+                        height: "68px",
+                      }}
+                    ></div>
+                  </div>
+                )
+              )}
+            </div>
           </div>
         </div>
         <div className={`bg-secondary w-100 my-2 opacity-50 text-white`}>

@@ -17,6 +17,7 @@ const Home = ({ isLoggedIn }) => {
   const [imgSrcSelected, setImgSrcSelected] = useState("");
   const [isImgClick, setIsImgClick] = useState(false);
   const [isPlayerVisible, setIsPlayerVisible] = useState(true);
+  const [isCapturing, setIsCapturing] = useState(false);
 
   const handleOnClickImg = (bool) => setIsImgClick(true);
 
@@ -33,6 +34,7 @@ const Home = ({ isLoggedIn }) => {
 
     socket.current.on("emotion_analysis_results", (data) => {
       setEmotionsWithColor((prev) => ({ ...prev, ...data.results }));
+      setIsCapturing(false);
     });
 
     socket.current.on("frame_status", (data) => {
@@ -101,6 +103,7 @@ const Home = ({ isLoggedIn }) => {
       webcamRef.current.stopStream();
       setShowStartButton(true);
     }
+    setIsCapturing(false);
   };
 
   const handleChange = (e) => {
@@ -138,6 +141,7 @@ const Home = ({ isLoggedIn }) => {
         setShowStartButton(false);
         togglePlayPause();
       }
+      setIsCapturing(true);
     } else {
       alert("Please choose an MP3 file before starting the capture.");
     }
@@ -152,6 +156,7 @@ const Home = ({ isLoggedIn }) => {
       if (socket.current) {
         socket.current.disconnect();
       }
+      // setIsCapturing(false)
     }
     handlePlayerVisible(false);
   };
@@ -195,6 +200,7 @@ const Home = ({ isLoggedIn }) => {
           handleOnClickImg={handleOnClickImg}
           handleSetImgSrc={handleSetImgSrc}
           isPlayerVisible={isPlayerVisible}
+          isCapturing={isCapturing}
         />
       </div>
     </>
