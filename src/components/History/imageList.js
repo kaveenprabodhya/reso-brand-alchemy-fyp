@@ -1,6 +1,11 @@
 import ImageListItem from "./imageListItem";
 
-const ImageList = ({ imageList, handleLoadImage, activeBrandId }) => {
+const ImageList = ({
+  imageList,
+  handleLoadImage,
+  activeBrandId,
+  handleDeletedImages,
+}) => {
   return (
     <>
       <div
@@ -18,6 +23,7 @@ const ImageList = ({ imageList, handleLoadImage, activeBrandId }) => {
               brandData={brandData}
               handleLoadImage={handleLoadImage}
               isActive={activeBrandId === brandData.id}
+              handleDeletedImages={handleDeletedImages}
             />
           );
         })}

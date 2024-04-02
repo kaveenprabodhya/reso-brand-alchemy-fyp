@@ -17,6 +17,20 @@ const HistoryTab = ({
   const [loadedImageData, setLoadedImageData] = useState({});
   const [activeBrandId, setActiveBrandId] = useState(null);
 
+  const handleDeletedImages = (deletedImageId) => {
+    setImageList((currentList) => {
+      const updatedList = currentList.filter(
+        (image) => image.id !== deletedImageId
+      );
+      if (deletedImageId === activeBrandId) {
+        const newActiveImage = updatedList[0] || {};
+        setActiveBrandId(newActiveImage.id);
+        setLoadedImageData(newActiveImage);
+      }
+      return updatedList;
+    });
+  };
+
   useEffect(() => {
     fetch("http://localhost:5000/api/image/get-history", {
       method: "GET",
@@ -60,6 +74,7 @@ const HistoryTab = ({
             imageList={imageList}
             handleLoadImage={handleLoadImage}
             activeBrandId={activeBrandId}
+            handleDeletedImages={handleDeletedImages}
           />
           <div className="col d-flex flex-column justify-content-center align-items-center">
             {!loadedImageData.imgs ? (
