@@ -2,19 +2,29 @@ import { useState } from "react";
 import classes from "./settings.module.css";
 import GeneralTab from "./generalTab";
 import ControlsTab from "./controlsTab";
+import PrivacyTab from "./privacyTab";
 
 const Settings = ({ closeSettingsModal, handleLogout, isLoggedIn }) => {
   const [isGeneralTabState, setGeneralTabState] = useState(true);
   const [isControlTabState, setControlTabState] = useState(false);
+  const [isPrivacyTabState, setPrivacyTabState] = useState(false);
 
   const handleGeneralTab = () => {
     setGeneralTabState(true);
     setControlTabState(false);
+    setPrivacyTabState(false);
   };
 
   const handleControlTab = () => {
     setControlTabState(true);
     setGeneralTabState(false);
+    setPrivacyTabState(false);
+  };
+
+  const handlePrivacyTab = () => {
+    setPrivacyTabState(true);
+    setGeneralTabState(false);
+    setControlTabState(false);
   };
 
   const logout = async () => {
@@ -48,29 +58,36 @@ const Settings = ({ closeSettingsModal, handleLogout, isLoggedIn }) => {
 
   return (
     <>
-      <div className="d-flex mb-3" style={{ height: "300px" }}>
+      <div className="d-flex mb-3" style={{ height: "400px" }}>
         <div className="d-flex flex-column justify-content-between px-2">
           <div className="d-flex flex-column">
             <button
-              className="btn text-white my-3"
-              style={{ backgroundColor: "#6423CB", width: "130px" }}
+              className="btn text-white mb-3 mt-3"
+              style={{ backgroundColor: "#6423CB", width: "160px" }}
               onClick={handleGeneralTab}
             >
               General
             </button>
             <button
-              className="btn text-white"
-              style={{ backgroundColor: "#6423CB", width: "130px" }}
+              className="btn text-white mb-3"
+              style={{ backgroundColor: "#6423CB", width: "160px" }}
               onClick={handleControlTab}
             >
               Controls
+            </button>
+            <button
+              className="btn text-white mb-3"
+              style={{ backgroundColor: "#6423CB", width: "160px" }}
+              onClick={handlePrivacyTab}
+            >
+              Privacy And Policy
             </button>
           </div>
           <div className="w-100">
             {isLoggedIn ? (
               <button
                 className="btn text-white w-100"
-                style={{ backgroundColor: "#6423CB", width: "130px" }}
+                style={{ backgroundColor: "#6423CB", width: "160px" }}
                 onClick={logout}
               >
                 Logout
@@ -87,6 +104,7 @@ const Settings = ({ closeSettingsModal, handleLogout, isLoggedIn }) => {
         <div className="px-3 w-100">
           {isGeneralTabState && <GeneralTab isLoggedIn={isLoggedIn} />}
           {isControlTabState && <ControlsTab isLoggedIn={isLoggedIn} />}
+          {isPrivacyTabState && <PrivacyTab isLoggedIn={isLoggedIn} />}
         </div>
       </div>
     </>

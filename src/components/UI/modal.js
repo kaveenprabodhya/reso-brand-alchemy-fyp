@@ -1,5 +1,14 @@
 import classes from "./modal.module.css";
-const Modal = ({ isOpen, title, children, onClose, padding = "10px 20px" }) => {
+const Modal = ({
+  isOpen,
+  title,
+  children,
+  onClose,
+  padding = "10px 20px",
+  width = "600px",
+  isHorizontalSeparatorVisible = "true",
+  marginTop = "10px",
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -11,10 +20,10 @@ const Modal = ({ isOpen, title, children, onClose, padding = "10px 20px" }) => {
         left: "50%",
         transform: "translate(-50%, -50%)",
         backgroundColor: "white",
-        maxWidth: "600px",
+        maxWidth: width,
         width: "90%",
         zIndex: 1050,
-        borderRadius: "10px"
+        borderRadius: "10px",
       }}
     >
       <div className="d-flex" style={{ padding: "10px 20px" }}>
@@ -26,8 +35,11 @@ const Modal = ({ isOpen, title, children, onClose, padding = "10px 20px" }) => {
           X
         </button>
       </div>
-      <div className={classes.horizontalSeparator}></div>
-      <div style={{padding: padding}}>{children}</div>
+      {isHorizontalSeparatorVisible && (
+        <div className={classes.horizontalSeparator}></div>
+      )}
+      <div style={{ padding: padding }}>{children}</div>
+      <div style={{ marginTop: marginTop }}></div>
     </div>
   );
 };

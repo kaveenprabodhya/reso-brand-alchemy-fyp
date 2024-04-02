@@ -160,6 +160,7 @@ const Main = () => {
           title="Settings"
           onClose={closeSettingsModal}
           padding="0"
+          width="750px"
         >
           <Settings
             handleLogout={handleLogOut}
@@ -184,8 +185,17 @@ const Main = () => {
         </Modal>
       )}
       {visiblePreviewImg && (
-        <Modal title="" isOpen={visiblePreviewImg} onClose={closePreviewImg}>
-          <img src={previewImg} alt="" className="img-fluid" />
+        <Modal
+          title=""
+          isOpen={visiblePreviewImg}
+          onClose={closePreviewImg}
+          width="800px"
+          isHorizontalSeparatorVisible={false}
+          marginTop="30px"
+        >
+          <div className="text-center">
+            <img src={previewImg} alt="" className="img-fluid" />
+          </div>
         </Modal>
       )}
       <div

@@ -3,6 +3,7 @@ import EmotionCapture from "./emotioncapture";
 import classes from "./home.module.css";
 import ArtistPreferences from "./Artist Preferences/artistpreferences";
 import io from "socket.io-client";
+import { ToastContainer, toast } from "react-toastify";
 
 const Home = ({ isLoggedIn }) => {
   const webcamRef = useRef(null);
@@ -86,7 +87,8 @@ const Home = ({ isLoggedIn }) => {
       audioPlayer.src = URL.createObjectURL(files[0]);
       audioPlayer.hidden = false;
     } else {
-      alert("Please select an MP3 file.");
+      // alert("Please select an MP3 file.");
+      toast.error("No MP3 File Selected: Please Select your music file first.");
     }
   };
 
@@ -143,7 +145,8 @@ const Home = ({ isLoggedIn }) => {
       }
       setIsCapturing(true);
     } else {
-      alert("Please choose an MP3 file before starting the capture.");
+      // alert("Please choose an MP3 file before starting the capture.");
+      toast.error("No MP3 File Selected: Please Select your music file first.");
     }
   };
 
@@ -164,6 +167,7 @@ const Home = ({ isLoggedIn }) => {
   return (
     <>
       <div className="col-7">
+        <ToastContainer />
         {isImgClick ? (
           <div className="d-flex justify-content-center align-items-center h-100">
             <img src={imgSrcSelected} alt="" className="img-fluid w-75" />
